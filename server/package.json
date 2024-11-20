@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongoose": "^8.8.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.1",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Inventory-management-MT",
+  "main": "app.ts",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dhishon Thomas",
+  "license": "ISC"
+}
