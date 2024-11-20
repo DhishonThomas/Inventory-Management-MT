@@ -7,4 +7,8 @@ export class userController{
         console.log("controller reached")
         res.send("Welcome to login.")
         }
+
+        async user_signUp(req:Request,res:Response){
+            res.send("Welcome to signup")
+        }
 }
