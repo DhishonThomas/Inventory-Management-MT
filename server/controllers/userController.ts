@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../models/userModel";
+import { hashedPassword } from "../utils/passwordManager";
 
 export class userController {
   constructor() {}
@@ -14,9 +15,36 @@ export class userController {
 
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-        res.status(200).json({status:false,message:"Email already existing"})
+      res
+        .status(200)
+        .json({ status: false, message: "Email already existing" });
     }
-    
-    res.send("Welcome to signup");
+    if (name.length >= 3) {
+      res
+        .status(200)
+        .json({
+          status: false,
+          message: "Name must be more than three letters",
+        });
+    }
+    const hashed_password = await hashedPassword(password);
+
+    const db = await User.create({
+      name: name,
+      email: email,
+      password: hashed_password,
+    });
+
+    console.log(db);
+    if (!db) {
+       res
+        .status(200)
+        .json({ status: false, message: "Server not created user.error" });
+        return
+    }
+
+    res
+      .status(200)
+      .json({ status: false, message: "Inventory user created successfully." });
   }
 }
