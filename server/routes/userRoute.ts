@@ -9,6 +9,7 @@ const router = express.Router()
 router.post("/login",(req,res)=>user_controller.user_login(req,res))
 router.post("/signUp",(req,res)=>user_controller.user_signUp(req,res))
 
+router.get("/profile",(req,res)=>user_controller.profile(req,res))
 
 
 export default router

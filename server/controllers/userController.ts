@@ -37,6 +37,10 @@ export class userController {
       });
   }
 
+async profile(req:Request,res:Response){
+
+}
+
 
 
   async user_signUp(req: Request, res: Response) {
