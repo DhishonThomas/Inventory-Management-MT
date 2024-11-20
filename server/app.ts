@@ -1,5 +1,5 @@
 import express from 'express'
-import router from './routes/userRoute'
+import router from './routes/routes'
 import db from './config/db'
 import dotenv from 'dotenv'
 

@@ -42,7 +42,9 @@ async profile(req:Request,res:Response){
 }
 
 
-
+async verifyLogin(req:Request,res:Response){
+    
+}
   async user_signUp(req: Request, res: Response) {
     const { name, email, password } = req.body;
 
