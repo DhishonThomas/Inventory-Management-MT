@@ -1,4 +1,5 @@
 import { Request,Response } from "express";
+import userSchema from "../models/userModel";
 
 export class userController{
     constructor(){}
@@ -9,6 +10,9 @@ export class userController{
         }
 
         async user_signUp(req:Request,res:Response){
+            const {name,email,password}=req.body
+
+            const db= userSchema()
             res.send("Welcome to signup")
         }
 }
