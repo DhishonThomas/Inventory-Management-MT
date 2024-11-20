@@ -47,4 +47,5 @@ export class userController {
       .status(200)
       .json({ status: false, message: "Inventory user created successfully." });
   }
+  
 }
