@@ -7,10 +7,11 @@ interface AuthUserRequest extends Request{
 }
 
 
-export const authMiddleware=async(req:AuthUserRequest,res:Response,next:NextFunction)=>{
+export const authMiddleware=async(req:AuthUserRequest,res:Response,next:NextFunction):Promise<void>=>{
 const token=req.headers.authorization?.split(" ")[1];
 if(!token){
-    return res.status(401).json({ message: "Authorization token required"});
+     res.status(401).json({ message: "Authorization token required"});
+     return
 }
 
 try {
@@ -22,14 +23,15 @@ const {userId}=req.user.payload
 const user=User.findById({_id:userId})
 
 if(!user){
-    return res.status(401).json({ message: "No user"});
+     res.status(401).json({ message: "No user"});
+     return
 
 }
 
 next()
 
 } catch (error) {
-    
+    console.error("error",error)
 }
 
 }
