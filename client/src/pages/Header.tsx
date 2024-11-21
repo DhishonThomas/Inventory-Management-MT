@@ -7,7 +7,7 @@ import { logout } from "../redux/slices/userSlice";
 import INVENTORY_LOGO from '../../public/inventory.webp'
 import Button from "../components/ui/Button";
 
-const AdminHeader: React.FC = () => {
+const Header: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
 const dispatch=useDispatch()
 const navigate=useNavigate()
@@ -46,4 +46,4 @@ navigate("/")
   );
 };
 
-export default AdminHeader;
+export default Header;
