@@ -18,7 +18,7 @@ res.status(201).json({status:true,message:"Successfully created sale"})
 
     async getAllSales(req:Request,res:Response){
 
-        const {userId}=req.body
+        const {userId}=req.params
 
         const sales=await Sales.findById({userId:userId})
 

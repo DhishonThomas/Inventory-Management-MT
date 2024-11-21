@@ -5,7 +5,7 @@ export class InventoryController {
   constructor() {}
 
   async getInventors(req: Request, res: Response) {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     if (!userId) {
       res.status(200).json({ status: false, message: "No userIds" });
