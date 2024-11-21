@@ -60,37 +60,44 @@ export class customerController {
   }
 
   async updateCustomer(req: Request, res: Response) {
-    const { name, address,customerId, userId, mobile } = req.body;
+    const { name, address, customerId, userId, mobile } = req.body;
 
-    if(!userId||!customerId){
-        res.status(200).json({status:false,message:"No userId"})
+    if (!userId || !customerId) {
+      res.status(200).json({ status: false, message: "No userId" });
     }
 
-    const result = customerValidator(name,address,mobile)
+    const result = customerValidator(name, address, mobile);
 
-    if(!result.status){
-        res.status(200).json({status:result.status,message:result.message})
-        return
+    if (!result.status) {
+      res.status(200).json({ status: result.status, message: result.message });
+      return;
     }
 
-    const updateCustomer=await Customer.findByIdAndUpdate({_id:customerId,userId:userId},{name:name,address:address,mobile:mobile},{new:true})
+    const updateCustomer = await Customer.findByIdAndUpdate(
+      { _id: customerId, userId: userId },
+      { name: name, address: address, mobile: mobile },
+      { new: true }
+    );
 
-    if(!updateCustomer){
-        res.status(200).json({status:false,message:"Server did not update customer"})
-        return
+    if (!updateCustomer) {
+      res
+        .status(200)
+        .json({ status: false, message: "Server did not update customer" });
+      return;
     }
 
-    res.status(201).json({status:true,message:"Successfully updated customer"})
+    res
+      .status(201)
+      .json({ status: true, message: "Successfully updated customer" });
   }
 
   async deleteCustomer(req: Request, res: Response) {
-    const {userId,customerId}=req.body
+    const { userId, customerId } = req.body;
 
-    if(!userId||!customerId){
-        res.status(200).json({status:false,message:"No user with this id."})
+    if (!userId || !customerId) {
+      res.status(200).json({ status: false, message: "No user with this id." });
     }
 
-    await Customer.findByIdAndDelete({_id:customerId,userId:userId})
-    
+    await Customer.findByIdAndDelete({ _id: customerId, userId: userId });
   }
 }
