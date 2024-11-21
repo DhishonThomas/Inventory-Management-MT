@@ -1,55 +1,90 @@
-import { Request,Response } from "express";
-import Inventory from "../models/inventoryModel"
+import { Request, Response } from "express";
+import Inventory from "../models/inventoryModel";
 import { InventoryValidator } from "../utils/validatorManager";
-export class InventoryController{
-    constructor(){}
+export class InventoryController {
+  constructor() {}
 
-async getInventors(req:Request,res:Response){
+  async getInventors(req: Request, res: Response) {
+ 
+  }
 
-}
+  async createInventory(req: Request, res: Response) {
+    const { name, description, quantity, price, userId } = req.body;
 
-async createInventory(req:Request,res:Response){
-
-}
-
-async updateInventory(req:Request,res:Response){
-
-    const {name,description,quantity,price,inventoryId,userId}=req.body
-
-    if(!userId||!inventoryId){
-        res.status(200).json({status:false,message:"NO userIds"})
+    if (!userId) {
+      res.status(200).json({ status: false, message: "NO userIds" });
     }
 
-    const result = InventoryValidator(name,description,quantity,price)
+    const result = InventoryValidator(name, description, quantity, price);
 
-    if(!result.status){
-        res.status(200).json({status:result.status,message:result.message})
-        return
+    if (!result.status) {
+      res.status(200).json({ status: result.status, message: result.message });
+      return;
+    }
+    const createInventory = await Inventory.create({
+      name: name,
+      userId: userId,
+      description: description,
+      quantity: quantity,
+      price: price,
+    });
+
+    if (!createInventory) {
+      res
+        .status(200)
+        .json({ status: false, message: "Server not created Inventory" });
     }
 
-    const updateInventory=await Inventory.findByIdAndUpdate({_id:inventoryId,userId:userId},{
-        name:name,description:description,quantity:quantity,price
-    },{new:true})
+    res
+      .status(201)
+      .json({ status: true, message: "Successfully created Inventory " });
+  }
 
-    if(!updateInventory){
-        res.status(200).json({status:false,message:"Server not update the Inventory"})
+  async updateInventory(req: Request, res: Response) {
+    const { name, description, quantity, price, inventoryId, userId } =
+      req.body;
+
+    if (!userId || !inventoryId) {
+      res.status(200).json({ status: false, message: "NO userIds" });
     }
 
-    res.status(201).json({status:true,message:"Successfully updated the Inventory"})
-}
+    const result = InventoryValidator(name, description, quantity, price);
 
-async deleteInventory(req:Request,res:Response){
-
-    const {userId,inventoryId}=req.body
-
-    if(!userId||!inventoryId){
-        res.status(200).json({status:false,message:"No userIds"})
-    return 
+    if (!result.status) {
+      res.status(200).json({ status: result.status, message: result.message });
+      return;
     }
 
-    await Inventory.findByIdAndDelete({_id:inventoryId,userId:userId})
+    const updateInventory = await Inventory.findByIdAndUpdate(
+      { _id: inventoryId, userId: userId },
+      {
+        name: name,
+        description: description,
+        quantity: quantity,
+        price,
+      },
+      { new: true }
+    );
 
-}
+    if (!updateInventory) {
+      res
+        .status(200)
+        .json({ status: false, message: "Server not update the Inventory" });
+    }
 
+    res
+      .status(201)
+      .json({ status: true, message: "Successfully updated the Inventory" });
+  }
 
+  async deleteInventory(req: Request, res: Response) {
+    const { userId, inventoryId } = req.body;
+
+    if (!userId || !inventoryId) {
+      res.status(200).json({ status: false, message: "No userIds" });
+      return;
+    }
+
+    await Inventory.findByIdAndDelete({ _id: inventoryId, userId: userId });
+  }
 }
