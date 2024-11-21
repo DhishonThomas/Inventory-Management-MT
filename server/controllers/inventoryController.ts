@@ -5,7 +5,22 @@ export class InventoryController {
   constructor() {}
 
   async getInventors(req: Request, res: Response) {
- 
+    const { userId } = req.body;
+
+    if (!userId) {
+      res.status(200).json({ status: false, message: "No userIds" });
+      return;
+    }
+
+    const inventors = await Inventory.find({ userId: userId });
+
+    res
+      .status(200)
+      .json({
+        status: false,
+        message: "Successfully get inventors",
+        inventors: inventors,
+      });
   }
 
   async createInventory(req: Request, res: Response) {
