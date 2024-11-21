@@ -3,9 +3,8 @@ import User from "../models/userModel";
 import { hashedPassword } from "../utils/passwordManager";
 import { generateToken } from "../utils/jwtManager";
 
-
-interface AuthUserRequest extends Request{
-  user?:any
+interface AuthUserRequest extends Request {
+  user?: any;
 }
 export class userController {
   constructor() {}
@@ -32,27 +31,21 @@ export class userController {
     const payload = { userId: findUser?._id };
     const token = generateToken(payload);
 
-    res
-      .status(201)
-      .json({
-        token: token,
-        status: true,
-        message: "Success fully token generated.",
-      });
+    res.status(201).json({
+      token: token,
+      status: true,
+      message: "Success fully token generated.",
+    });
   }
 
-
-
-
-async verifyLogin(req:AuthUserRequest,res:Response){
-    
-  const user=await User.findById({_id:req.user?.payload?.user})
-if(user){
-  res.status(201).json({status:true,message:"Successfully verified",user:user})
-
-}
-
-}
+  async verifyLogin(req: AuthUserRequest, res: Response) {
+    const user = await User.findById({ _id: req.user?.payload?.user });
+    if (user) {
+      res
+        .status(201)
+        .json({ status: true, message: "Successfully verified", user: user });
+    }
+  }
   async user_signUp(req: Request, res: Response) {
     const { name, email, password } = req.body;
 
