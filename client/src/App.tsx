@@ -1,7 +1,12 @@
+import AppRouter from "./routes/AppRouter"
 
 const  App = () => {
   return (
-    <div className=' text-8xl font-bold text-cyan-500 items-center'>App</div>
+<>
+
+<AppRouter/>
+
+</>
   )
 }
 
