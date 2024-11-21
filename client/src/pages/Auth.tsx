@@ -1,8 +1,7 @@
-import React from 'react'
 
 const Auth = () => {
   return (
-    <div>Auth</div>
+    <div className='text-yellow-700'>Auth</div>
   )
 }
 
