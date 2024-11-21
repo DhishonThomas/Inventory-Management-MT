@@ -87,7 +87,7 @@ export class customerController {
     const {userId,customerId}=req.body
 
     if(!userId||!customerId){
-        res.status(200).json({status:false,messagae:"No user with this id."})
+        res.status(200).json({status:false,message:"No user with this id."})
     }
 
     await Customer.findByIdAndDelete({_id:customerId,userId:userId})
