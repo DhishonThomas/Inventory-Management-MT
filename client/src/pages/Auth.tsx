@@ -6,7 +6,7 @@ const Auth = () => {
 
     const user=useSelector((state:RootState)=>state.user)
 
-    if(!user.isAuthenticated){
+    if(user.isAuthenticated){
         return  <Navigate to={"/dashboard"} replace/>
        
     }
