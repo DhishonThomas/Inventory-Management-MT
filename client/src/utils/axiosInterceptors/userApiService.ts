@@ -50,3 +50,6 @@ userApi.interceptors.response.use(
     return Promise.reject(new Error("Session expired. Please log in again."));
   }
 );
+
+
+export default userApi
