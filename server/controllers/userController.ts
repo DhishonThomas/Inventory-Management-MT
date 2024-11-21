@@ -3,6 +3,10 @@ import User from "../models/userModel";
 import { hashedPassword } from "../utils/passwordManager";
 import { generateToken } from "../utils/jwtManager";
 
+
+interface AuthUserRequest extends Request{
+  user?:any
+}
 export class userController {
   constructor() {}
 
@@ -37,13 +41,17 @@ export class userController {
       });
   }
 
-async profile(req:Request,res:Response){
+
+
+
+async verifyLogin(req:AuthUserRequest,res:Response){
+    
+  const user=await User.findById({_id:req.user?.payload?.user})
+if(user){
+  res.status(201).json({status:true,message:"Successfully verified",user:user})
 
 }
 
-
-async verifyLogin(req:Request,res:Response){
-    
 }
   async user_signUp(req: Request, res: Response) {
     const { name, email, password } = req.body;

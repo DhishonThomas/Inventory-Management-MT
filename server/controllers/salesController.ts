@@ -21,10 +21,7 @@ res.status(201).json({status:true,message:"Successfully created sale"})
         const {userId}=req.body
 
         const sales=await Sales.findById({userId:userId})
-        
+
         res.status(201).json({status:true,message:"Successfully get sales",sales:sales})
     }
-
-    
-
 }

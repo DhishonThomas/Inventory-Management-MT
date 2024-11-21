@@ -11,7 +11,6 @@ router.post("/login",(req,res)=>user_controller.user_login(req,res))
 router.post("/signUp",(req,res)=>user_controller.user_signUp(req,res))
 router.get("/verifyLogin",(req,res)=>user_controller.verifyLogin(req,res))
 
-router.get("/profile",authMiddleware,(req,res)=>user_controller.profile(req,res))
 
 
 export default router
