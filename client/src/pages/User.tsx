@@ -1,4 +1,3 @@
-import React from 'react'
 import Header from './Header'
 import { MdDashboard ,MdInventory} from 'react-icons/md'
 import { ImUsers } from "react-icons/im";
@@ -7,9 +6,9 @@ import { Outlet } from 'react-router-dom';
 const User = () => {
 
     const menuItems=[
-        {label:'Dashboard',path:'/admin/dashboard',icon:<MdDashboard/>},
-        {label:'Customers',path:'/admin/companies',icon:<ImUsers/>},
-        {label:'Inventory',path:'/admin/payments',icon:<MdInventory/>}
+        {label:'Dashboard',path:'/dashboard',icon:<MdDashboard/>},
+        {label:'Customers',path:'/customer',icon:<ImUsers/>},
+        {label:'Inventory',path:'/inventory',icon:<MdInventory/>}
       ] 
 
   return (
@@ -19,7 +18,6 @@ const User = () => {
 <DashBoard menuItems={menuItems}>
 
 <Outlet/>
-
 </DashBoard>
 
 </>

@@ -3,9 +3,9 @@ import React from 'react'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard
+    <div className='text-blue-950'>Dashboard
 
-        
+
     </div>
   )
 }

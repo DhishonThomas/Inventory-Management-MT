@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../redux/store";
 import { logout } from "../redux/slices/userSlice";
-import INVENTORY_LOGO from '../../public/inventory.webp'
+import INVENTORY_LOGO from '../assets/inventory.webp'
 import Button from "../components/ui/Button";
 
 const Header: React.FC = () => {
@@ -23,7 +23,7 @@ navigate("/")
       <div className="flex items-center justify-between px-10 ">
         <div>
           <img
-            className="w-36 p-2 rounded-lg"
+            className="w-16 p-2 rounded-lg"
             src={INVENTORY_LOGO}
             alt="inventory logo"
           />
