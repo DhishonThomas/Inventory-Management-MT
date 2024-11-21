@@ -6,7 +6,8 @@ interface ISale{
     is_cash:boolean;
     quantity:number;
     customer_id:ObjectId;
-    payment_type:string
+    payment_type:string;
+    userId:ObjectId
 }
 
 const saleSchema:Schema=new Schema({
@@ -15,7 +16,8 @@ const saleSchema:Schema=new Schema({
     is_cash:{type:Boolean,default:false,required:false},
     quantity:{type:Number},
     customer_id:{type:Schema.Types.ObjectId,ref:"Customer"},
-    payment_type:{type:String}
+    payment_type:{type:String},
+    userId:{type:Schema.Types.ObjectId,ref:"User"}
 })
 
 
