@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import InputField from "../components/ui/InputField";
 import { useState } from "react";
 import Button from "../components/ui/Button";
@@ -13,20 +13,21 @@ import {
   validateFullName,
   validatePassword,
 } from "../utils/validator";
+import userApi from "../utils/axiosInterceptors/userApiService";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
-
+const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.user);
 
   if (user.isAuthenticated) {
     return <Navigate to={"/dashboard"} replace />;
   }
 
-  const handleSubmit = () => {
+  const handleSubmit =async() => {
     const checkEmail = validateEmail(email);
     const checkPassword = validatePassword(password);
 
@@ -59,9 +60,12 @@ const Auth = () => {
         });
         return;
       }
-      
-      if (isLogin) {
-      }
+        const response=await userApi.post("/user/signUp")
+
+console.log(response.data)
+        if(response.data.status){
+          navigate("/")
+        }
     }
   };
 
