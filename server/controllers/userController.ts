@@ -64,11 +64,13 @@ export class userController {
         .status(200)
         .json({ status: false, message: "Email already existing" });
     }
-    if (name.length >= 3) {
+
+    if (name.length <= 3) {
       res.status(200).json({
         status: false,
         message: "Name must be more than three letters",
       });
+return
     }
     const hashed_password = await hashedPassword(password);
 
@@ -87,7 +89,7 @@ export class userController {
     }
 
     res
-      .status(200)
-      .json({ status: false, message: "Inventory user created successfully." });
+      .status(201)
+      .json({ status: true, message: "Inventory user created successfully." });
   }
 }

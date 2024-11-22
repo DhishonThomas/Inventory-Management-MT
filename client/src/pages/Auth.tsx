@@ -60,10 +60,23 @@ const navigate = useNavigate()
         });
         return;
       }
-        const response=await userApi.post("/user/signUp")
+        const response=await userApi.post("/user/signUp",{name:name,email:email,password:password})
 
-console.log(response.data)
+if(!response.data.status){
+  toast.error(response.data.message, {
+    position: "top-center",
+    autoClose: 5000,
+    theme: "dark",
+  });
+}
+
+console.log("response.data",response.data.status)
         if(response.data.status){
+          toast.success(response.data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            theme: "dark",
+          });
           navigate("/")
         }
     }
