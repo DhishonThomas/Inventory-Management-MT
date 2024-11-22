@@ -19,11 +19,11 @@ navigate("/")
   }
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 bg-slate-100 shadow-md">
+    <header className="w-full fixed top-0 left-0 z-50 bg-gray-600 shadow-md">
       <div className="flex items-center justify-between px-10 ">
         <div>
           <img
-            className="w-20 p-2 rounded-lg"
+            className="w-36  rounded-lg"
             src={INVENTORY_LOGO}
             alt="inventory logo"
           />
