@@ -7,7 +7,6 @@ import customerRoutes from './customerRoute'
 
 const router = express.Router()
 
-
 router.use("/user",userRoutes)
 router.use("/inventory",inventoryRoutes)
 router.use("/sales",salesRoutes)
