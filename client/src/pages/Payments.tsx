@@ -34,6 +34,23 @@ const Payments = ({ userId, productId }: any) => {
   const fetchProduct = async () => {
     const response = await userApi.get(`/inventory/${userId}/${productId}`);
     console.log("response>>product", response.data);
+const {message,status,inventors}=response.data
+    if(!status){
+      
+    }else{
+
+      setProduct({name:inventors.name,
+        description:inventors.description,
+        quantity:inventors.quantity,
+        price:inventors.price
+      })
+
+      setPrice(inventors.price)
+      setQuantity(inventors.quantity)
+      
+    }
+
+    
   };
 
   const handleQuantityIncrease = () => {
