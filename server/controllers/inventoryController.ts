@@ -4,6 +4,27 @@ import { InventoryValidator } from "../utils/validatorManager";
 export class InventoryController {
   constructor() {}
 
+async getSingleProduct(req:Request,res:Response){
+  const {userId,productId}=req.params
+
+if(!userId||!productId){
+  res.status(200).json({ status: false, message: "No userIds" });
+  return;
+}
+const inventors = await Inventory.findOne({ userId: userId,_id:productId });
+console.log("inventors",inventors);
+
+res
+  .status(201)
+  .json({
+    status: true,
+    message: "Successfully get inventors",
+    inventors: inventors,
+  });
+
+
+}
+
   async getInventors(req: Request, res: Response) {
     const { userId } = req.params;
 

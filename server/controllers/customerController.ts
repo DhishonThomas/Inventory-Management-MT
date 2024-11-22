@@ -12,9 +12,8 @@ export class customerController {
       res.status(200).json({ status: false, message: "No userId find" });
     }
 
-    const customers = await Customer.findById({ userId: userId });
+    const customers = await Customer.find({ userId: userId });
 
-    console.log(customers);
 
     if (!customers) {
       res
