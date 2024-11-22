@@ -7,13 +7,14 @@ import { toast } from "react-toastify";
 import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
 import InventoryCreate from "./InventoryCreate";
+import Payments from "./Payments";
 
 const Inventory = () => {
   const user: any = useSelector((state: RootState) => state.user);
   const [inventorsData, setInventors] = useState([]);
   const [isVisibleProduct, setIsVisibleProduct] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); 
-  const [paymentModalVisible, setPaymentModal] = useState(false); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [paymentModalVisible, setPaymentModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const { _id } = user.user;
@@ -54,14 +55,14 @@ const Inventory = () => {
     setPaymentModal(false);
   };
 
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredInventory = inventorsData.filter((item: any) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredInventory = inventorsData.filter(
+    (item: any) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
@@ -117,7 +118,6 @@ const Inventory = () => {
         </tbody>
       </table>
 
-      {/* Add Product Modal */}
       <Modal
         isVisible={isVisibleProduct}
         title="Add Product"
@@ -126,23 +126,13 @@ const Inventory = () => {
         <InventoryCreate userId={_id} />
       </Modal>
 
-        <Modal
-          isVisible={paymentModalVisible}
-          title={`Record Payment for ${selectedProduct?.name}`}
-          onClose={handlePaymentModalClose}
-        >
-          <div className="payment-options">
-            <p>Select Payment Type:</p>
-            <Button
-              text="Cash"
-              onclick={() => console.log("Cash payment for", selectedProduct)}
-            />
-            <Button
-              text="Online"
-              onclick={() => console.log("Online payment for", selectedProduct)}
-            />
-          </div>
-        </Modal>
+      <Modal
+        isVisible={paymentModalVisible}
+        title={`Record Payment for ${selectedProduct?.name}`}
+        onClose={handlePaymentModalClose}
+      >
+        <Payments userId={_id} productId={selectedProduct?._id} />
+      </Modal>
     </div>
   );
 };
