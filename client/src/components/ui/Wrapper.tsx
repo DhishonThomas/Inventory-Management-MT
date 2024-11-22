@@ -31,17 +31,32 @@ interface WrapperProps {
     maxWidthLg=false,
     maxWidthMax=false,}) => {
 return (
-<div className={`flex flex-col  ${minHeight}`}>
-    <div className="flex  flex-grow items-center justify-center p-4">
-      <div className={`bg-login-background text-white rounded-md  p-6 ${maxWidthLg?"max-w-lg":""} ${maxWidth7Xl?"max-w-7xl":""} ${maxWidth5Xl?"max-w-5xl":""} ${maxWidth6Xl?"max-w-6xl":""} ${maxWidth4Xl?"max-w-4xl":""} ${maxWidth2Xl?"max-w-2xl":""} ${maxWidthXl?"max-w-xl":""} ${maxWidth3Xl?"max-w-3xl":""} ${maxWidthMin?"max-w-min":""} ${maxWidthMax?"max-w-max":""} ${maxWidthMd?"max-w-md":""} w-full`}>
-        <h2 className="text-2xl font-bold text-center p-3 underline">
-          {title}
-        </h2>
-        <hr className="w-full border-t border-gray-400 my-4" />
-        <div className="font-bold text-lg">{children}</div>
-      </div>
+<div className={`flex flex-col ${minHeight}`}>
+  <div className="flex flex-grow items-center justify-center bg-gray-600 p-4">
+    <div
+      className={`bg-slate-700 text-white rounded-md shadow-lg p-6
+        ${maxWidthLg ? "max-w-lg" : ""}
+        ${maxWidth7Xl ? "max-w-7xl" : ""}
+        ${maxWidth5Xl ? "max-w-5xl" : ""}
+        ${maxWidth6Xl ? "max-w-6xl" : ""}
+        ${maxWidth4Xl ? "max-w-4xl" : ""}
+        ${maxWidth2Xl ? "max-w-2xl" : ""}
+        ${maxWidthXl ? "max-w-xl" : ""}
+        ${maxWidth3Xl ? "max-w-3xl" : ""}
+        ${maxWidthMin ? "max-w-min" : ""}
+        ${maxWidthMax ? "max-w-max" : ""}
+        ${maxWidthMd ? "max-w-md" : ""}
+        w-full`}
+    >
+      <h2 className="text-3xl font-bold text-center p-3 underline">
+        {title}
+      </h2>
+      <hr className="w-full border-t border-gray-400/50 my-4" />
+      <div className="font-bold text-lg">{children}</div>
     </div>
   </div>
+</div>
+
 );
     
   };

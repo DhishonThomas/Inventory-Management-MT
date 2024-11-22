@@ -1,10 +1,8 @@
 import axios from "axios";
-
 import store from "../../redux/store";
 import { logout } from "../../redux/slices/userSlice";
 import { toast } from "react-toastify";
 import { SERVER_URL } from "../constants";
-import { config } from "dotenv";
 
 const userApi = axios.create({
   baseURL: `${SERVER_URL}`,

@@ -2,7 +2,7 @@ import React from "react";
 
 interface ButtonProps {
   text: string|React.ReactNode;
-  onclick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onclick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
   bgColor?: string;
