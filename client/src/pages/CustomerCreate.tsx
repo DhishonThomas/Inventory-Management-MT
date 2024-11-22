@@ -10,8 +10,9 @@ const CustomerCreate = ({ userId }: any) => {
   const [mobile, setMobile] = useState(0);
 
   const handleSubmit = async () => {
+    alert("dkd")
     const response = await userApi.post("/customer", { name, address, mobile,userId });
-  
+  console.log(response.data)
   };
 
   return (
@@ -37,13 +38,16 @@ const CustomerCreate = ({ userId }: any) => {
         }}
       />
       <InputField
-        type="number"
+        type="text"
         label="Customer Mobile"
         bgColor="bg-gray-400"
         name="number"
         value={mobile}
-        onchange={(e) => {
-          setMobile(Number(e.target.value));
+        onchange={(e:any) => {
+    if (!isNaN(e.target.value) && e.target.value.trim() !== "") {
+      setMobile(Number(e.target.value)); 
+    }
+         ;
         }}
       />
 

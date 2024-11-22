@@ -31,6 +31,7 @@ export class customerController {
 
   async createCustomer(req: Request, res: Response) {
     const { name, address, mobile, userId } = req.body;
+console.log("create customer reached",req.body);
 
     const result = customerValidator(name, address, mobile);
 

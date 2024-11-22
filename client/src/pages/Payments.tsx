@@ -5,72 +5,80 @@ import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
 import CustomerCreate from "./CustomerCreate";
 import userApi from "../utils/axiosInterceptors/userApiService";
+import { TiPlus,TiMinus } from "react-icons/ti";
 
 const Payments = ({ userId, productId }: any) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [customer_data, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [product, setProduct] = useState({
     name: "",
     quantity: 0,
     price: 0,
     description: "",
   });
-
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const handleModalOpen = () => {
-    setIsVisible(true);
-  };
-  const handleOnClose = () => {
-    setIsVisible(false);
-  };
+  const handleModalOpen = () => setIsVisible(true);
+  const handleModalClose = () => setIsVisible(false);
 
-  const fetchCustomers = async () => {
-    const response = await userApi.get(`/customer/${userId}`);
-    console.log("response", response.data);
-  }; 
+  const fetchCustomers = async (query = "", page = 1) => {
+    const response = await userApi.get(`/customer/${userId}?q=${query}&page=${page}`);
+    const { customers: customerData, totalPages: total } = response.data;
+    setCustomers(customerData);
+    setTotalPages(total);
+  };
 
   const fetchProduct = async () => {
     const response = await userApi.get(`/inventory/${userId}/${productId}`);
-    console.log("response>>product", response.data);
-const {message,status,inventors}=response.data
-    if(!status){
-      
-    }else{
+    const { inventors } = response.data;
 
-      setProduct({name:inventors.name,
-        description:inventors.description,
-        quantity:inventors.quantity,
-        price:inventors.price
-      })
-
-      // setPrice(inventors.price)
-      // setQuantity(inventors.quantity) 
+    if (inventors) {
+      setProduct({
+        name: inventors.name,
+        description: inventors.description,
+        quantity: inventors.quantity,
+        price: inventors.price,
+      });
     }
   };
 
   const handleQuantityIncrease = () => {
-    if (product.quantity  !=0) {
+    if (product.quantity > 0) {
       setQuantity((prev) => prev + 1);
-      setProduct((prev)=>({
+      setProduct((prev) => ({
         ...prev,
-        quantity:prev.quantity-1
-      }))
-      
+        quantity: prev.quantity - 1,
+      }));
       setPrice((prev) => prev + product.price);
     }
   };
 
   const handleQuantityDecrease = () => {
     if (quantity > 0) {
-      setProduct((prev)=>({
-        ...prev,
-        quantity:prev.quantity+1
-      }))
       setQuantity((prev) => prev - 1);
+      setProduct((prev) => ({
+        ...prev,
+        quantity: prev.quantity + 1,
+      }));
       setPrice((prev) => prev - product.price);
     }
+  };
+
+  const handleCustomerSelect = (id: string) => setSelectedCustomer(id);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    fetchCustomers(e.target.value, 1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    fetchCustomers(searchQuery, page);
   };
 
   useEffect(() => {
@@ -79,65 +87,79 @@ const {message,status,inventors}=response.data
   }, []);
 
   return (
-    <Wrapper title="Payment" maxWidth5Xl>
-      <Button
-        text="Add Customer"
-        bgColor="bg-gray-400"
-        onclick={handleModalOpen}
-      />
-      <p>select customer</p>
-      //search for customer with name and mobile. //All customer want to show on
-      the table , with name ,address,mobile . and a button to select them.
-      //select only one customer like radio Button or any thing like selection
-      <InputField
-      label="Product Name"
-        name="ProductName"
-        type="text"
-        value={product.name}
-        bgColor="bg-gray-400"
-        disable
-      />
-      <InputField
-      label="Description"
-        name="Description"
-        type="text"
-        value={product.description}
-        bgColor="bg-gray-400"
-        disable
-      />
-      <InputField
-      label="Quantity"
-        name="Quantity"
-        type="number"
-        value={product.quantity}
-        bgColor="bg-gray-400"
-        disable
-      />
-      <InputField
-      label="Price"
-        name="Price"
-        type="number"
-        value={product.price}
-        bgColor="bg-gray-400"
-        disable
-      />
-      <p>userQuantity:{quantity}</p>
-      <p>userPrice:{price}</p>
+    <Wrapper title="Checkout" maxWidth5Xl>
+      <div className="product-card border p-4 rounded-lg shadow-sm mb-6 bg-gray-600">
+        <h2 className="text-xl font-bold">{product.name}</h2>
+        <p>{product.description}</p>
+        <p>
+          <span className="font-bold">Price:</span> ₹{product.price}
+        </p>
+        <p>
+          <span className="font-bold">Available Quantity:</span> {product.quantity}
+        </p>
+        <div className="quantity-controls mt-4 flex items-center gap-2 ">
+          <Button onclick={handleQuantityIncrease} text={<TiPlus/>} textColor="text-pink-400 text-2xl" />
+          <p>{quantity}</p>
+          <Button onclick={handleQuantityDecrease} text={<TiMinus/>} textColor="text-pink-400 text-2xl" />
+        </div>
+        <p className="mt-2">
+          <span className="font-bold">Total Price:</span> ₹{price}
+        </p>
+      </div>
 
+      <div className="customer-section">
+        <div className="flex items-center justify-between mb-4">
+          <InputField
+            label="Search Customers"
+            name="search"
+            type="text"
+            value={searchQuery}
+            onchange={handleSearchChange}
+          />
+          <Button text="Add Customer" bgColor="bg-gray-800" onclick={handleModalOpen} />
+        </div>
 
-      <Button
-        type="submit"
-        bgColor="bg-gray-400"
-        onclick={handleQuantityIncrease}
-        text={`➕`}
-      />
-      <Button
-        type="submit"
-        bgColor="bg-gray-400"
-        onclick={handleQuantityDecrease}
-        text={`➖`}
-      />
-      <Modal isVisible={isVisible} onClose={handleOnClose} title="Add Customer">
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Select</th>
+              <th className="border border-gray-300 p-2">Name</th>
+              <th className="border border-gray-300 p-2">Mobile</th>
+              <th className="border border-gray-300 p-2">Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.map((customer: any) => (
+              <tr key={customer._id}>
+                <td className="border border-gray-300 p-2 text-center">
+                  <input
+                    type="radio"
+                    name="selectedCustomer"
+                    checked={selectedCustomer === customer._id}
+                    onChange={() => handleCustomerSelect(customer._id)}
+                  />
+                </td>
+                <td className="border border-gray-300 p-2">{customer.name}</td>
+                <td className="border border-gray-300 p-2">{customer.mobile}</td>
+                <td className="border border-gray-300 p-2">{customer.address}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="pagination mt-4 flex justify-center">
+          {[...Array(totalPages)].map((_, index) => (
+            <Button
+              key={index}
+              text={`${index + 1}`}
+              onclick={() => handlePageChange(index + 1)}
+              bgColor={currentPage === index + 1 ? "bg-blue-500" : "bg-gray-400"}
+            />
+          ))}
+        </div>
+      </div>
+
+      <Modal isVisible={isVisible} maxWidth2Xl onClose={handleModalClose} title="Add Customer">
         <CustomerCreate userId={userId} />
       </Modal>
     </Wrapper>
