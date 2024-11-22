@@ -15,9 +15,9 @@ export class InventoryController {
     const inventors = await Inventory.find({ userId: userId });
 
     res
-      .status(200)
+      .status(201)
       .json({
-        status: false,
+        status: true,
         message: "Successfully get inventors",
         inventors: inventors,
       });
@@ -25,7 +25,7 @@ export class InventoryController {
 
   async createInventory(req: Request, res: Response) {
     const { name, description, quantity, price, userId } = req.body;
-
+console.log("server reached",req.body)
     if (!userId) {
       res.status(200).json({ status: false, message: "NO userIds" });
     }
@@ -36,6 +36,7 @@ export class InventoryController {
       res.status(200).json({ status: result.status, message: result.message });
       return;
     }
+    
     const createInventory = await Inventory.create({
       name: name,
       userId: userId,

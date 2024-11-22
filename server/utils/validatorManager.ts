@@ -23,7 +23,7 @@ export function customerValidator(name: string, address: string, mobile: number)
 
 
 export function InventoryValidator(name: string, description: string,quantity:number, price: number) {
-  if (name.length >= 3) {
+  if (name.length <= 2) {
     const result = {
       status: false,
       message: "Name want to be more that 2 letters",
