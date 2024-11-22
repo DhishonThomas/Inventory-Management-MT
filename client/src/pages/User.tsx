@@ -15,7 +15,7 @@ const User = () => {
 <>
 <Header/>
 
-<DashBoard menuItems={menuItems}>
+<DashBoard menuItems={menuItems} bgColor='bg-slate-600'>
 
 <Outlet/>
 </DashBoard>
