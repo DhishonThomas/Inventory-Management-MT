@@ -20,10 +20,10 @@ const SideBar: React.FC<SideBarProps> = ({ menuItems, bgColor = 'bg-stone-900', 
       <ul>
         {menuItems.map((item, index) => (
           <Link to={item.path}>
-          <li key={index} className="flex items-center mb-6 p-2 rounded hover:bg-gray-700 transition-all duration-200">
+          <li key={index} className="flex items-center mb-6 p-2 rounded-lg hover:bg-gray-700 transition-all duration-200">
             <Link
               to={item.path}
-              className={`flex items-center text-base font-medium hover:text-blue-400 transition-colors duration-200 ${!isOpen && 'justify-center'}`}
+              className={`flex items-center text-base font-medium hover:text-pink-400 transition-colors duration-200 ${!isOpen && 'justify-center'}`}
             >
               <span className="mr-4 text-4xl">{item.icon}</span>
               {isOpen && item.label}
