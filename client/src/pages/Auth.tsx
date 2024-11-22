@@ -6,12 +6,19 @@ import { useState } from "react";
 import Button from "../components/ui/Button";
 import Wrapper from "../components/ui/Wrapper";
 import Header from "./Header";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import {
+  validateEmail,
+  validateFullName,
+  validatePassword,
+} from "../utils/validator";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-  const [name,setName]=useState("")
+  const [name, setName] = useState("");
 
   const user = useSelector((state: RootState) => state.user);
 
@@ -19,9 +26,43 @@ const Auth = () => {
     return <Navigate to={"/dashboard"} replace />;
   }
 
-  const handleLogin = () => {
-    console.log(password, email);
-    alert("");
+  const handleSubmit = () => {
+    const checkEmail = validateEmail(email);
+    const checkPassword = validatePassword(password);
+
+    if (checkEmail != null) {
+      toast.error(checkEmail.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      return;
+    }
+
+    if (checkPassword != null) {
+      toast.error(checkPassword.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      return;
+    }
+
+    if (!isLogin) {
+      const checkName = validateFullName(name);
+
+      if (checkName != null) {
+        toast.error(checkName.errMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          theme: "dark",
+        });
+        return;
+      }
+      
+      if (isLogin) {
+      }
+    }
   };
 
   return (
@@ -32,36 +73,39 @@ const Auth = () => {
     >
       <Header />
 
-{!isLogin&&
-  <InputField
-        name="name"
-        type="text"
-        value={name}
-        label="Name"
-        onchange={(e) => setName(e.target.value)}
-      />
-}
+      {!isLogin && (
+        <InputField
+          name="name"
+          type="text"
+          value={name}
+          label="Name"
+          bgColor="bg-gray-800"
+          onchange={(e) => setName(e.target.value)}
+        />
+      )}
       <InputField
         name="Email"
         type="email"
         value={email}
+        bgColor="bg-gray-800"
         label="Email"
         onchange={(e) => setEmail(e.target.value)}
       />
       <InputField
         name="Password"
         type="password"
+        bgColor="bg-gray-800"
         value={password}
         label="Password"
         onchange={(e) => setPassword(e.target.value)}
       />
 
       <Button
-        onHover="hover:bg-slate-500"
-        bgColor="bg-gray-400"
-        text={"Login"}
+        onHover="hover:bg-slate-800"
+        bgColor="bg-gray-600"
+        text={isLogin ? "Login" : "Sign Up"}
         type="submit"
-        onclick={handleLogin}
+        onclick={handleSubmit}
       />
       <div className="text-center mt-4 ">
         {!isLogin ? (
