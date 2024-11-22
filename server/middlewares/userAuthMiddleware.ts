@@ -18,7 +18,7 @@ try {
     const decoded=verifyToken(token)
 
     req.user=decoded
-const {userId}=req.user.payload
+const {userId}=req.user
 
 const user=User.findById({_id:userId})
 

@@ -32,7 +32,7 @@ export class userController {
     }
     const payload = { userId: user?._id };
     const token = generateToken(payload);
-
+console.log("token gendered",token)
     res.status(201).json({
       token: token,
       status: true,
@@ -41,7 +41,7 @@ export class userController {
   }
 
   async verifyLogin(req: AuthUserRequest, res: Response) {
-    const user = await User.findById({ _id: req.user?.payload?.user });
+    const user = await User.findById({ _id: req.user?.userId });
     if (user) {
       res
         .status(201)
