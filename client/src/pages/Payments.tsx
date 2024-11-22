@@ -45,25 +45,31 @@ const {message,status,inventors}=response.data
         price:inventors.price
       })
 
-      setPrice(inventors.price)
-      setQuantity(inventors.quantity)
-      
+      // setPrice(inventors.price)
+      // setQuantity(inventors.quantity) 
     }
-
-    
   };
 
   const handleQuantityIncrease = () => {
-    if (product.quantity > quantity + 1) {
+    if (product.quantity  !=0) {
       setQuantity((prev) => prev + 1);
-      setPrice((prev) => prev + prev);
+      setProduct((prev)=>({
+        ...prev,
+        quantity:prev.quantity-1
+      }))
+      
+      setPrice((prev) => prev + product.price);
     }
   };
 
   const handleQuantityDecrease = () => {
-    if (product.quantity < quantity - 1) {
+    if (quantity > 0) {
+      setProduct((prev)=>({
+        ...prev,
+        quantity:prev.quantity+1
+      }))
       setQuantity((prev) => prev - 1);
-      setPrice((prev) => prev - prev);
+      setPrice((prev) => prev - product.price);
     }
   };
 
@@ -73,7 +79,7 @@ const {message,status,inventors}=response.data
   }, []);
 
   return (
-    <Wrapper title="Payment">
+    <Wrapper title="Payment" maxWidth5Xl>
       <Button
         text="Add Customer"
         bgColor="bg-gray-400"
@@ -84,6 +90,7 @@ const {message,status,inventors}=response.data
       the table , with name ,address,mobile . and a button to select them.
       //select only one customer like radio Button or any thing like selection
       <InputField
+      label="Product Name"
         name="ProductName"
         type="text"
         value={product.name}
@@ -91,6 +98,7 @@ const {message,status,inventors}=response.data
         disable
       />
       <InputField
+      label="Description"
         name="Description"
         type="text"
         value={product.description}
@@ -98,20 +106,25 @@ const {message,status,inventors}=response.data
         disable
       />
       <InputField
+      label="Quantity"
         name="Quantity"
         type="number"
-        value={quantity}
+        value={product.quantity}
         bgColor="bg-gray-400"
         disable
       />
       <InputField
+      label="Price"
         name="Price"
         type="number"
-        value={price}
+        value={product.price}
         bgColor="bg-gray-400"
         disable
       />
-      <p></p>
+      <p>userQuantity:{quantity}</p>
+      <p>userPrice:{price}</p>
+
+
       <Button
         type="submit"
         bgColor="bg-gray-400"

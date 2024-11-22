@@ -130,6 +130,7 @@ const Inventory = () => {
         isVisible={paymentModalVisible}
         title={`Record Payment for ${selectedProduct?.name}`}
         onClose={handlePaymentModalClose}
+        maxWidth5Xl
       >
         <Payments userId={_id} productId={selectedProduct?._id} />
       </Modal>

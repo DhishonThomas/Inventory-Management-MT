@@ -54,7 +54,7 @@ const Modal: React.FC<ModalProps> = ({
       justifyCenter
     >
       <Card
-        bgColour="bg-login-background"
+        bgColour="bg-black"
         padding="8"
         roundedMd={roundedMd}
         itemsCenter={itemsCenter}
