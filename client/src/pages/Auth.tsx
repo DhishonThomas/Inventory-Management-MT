@@ -13,7 +13,9 @@ import {
   validateFullName,
   validatePassword,
 } from "../utils/validator";
-import userApi from "../utils/axiosInterceptors/userApiService";
+import axios from "axios";
+import { loginSuccess } from "../redux/slices/userSlice";
+import { SERVER_URL } from "../utils/constants";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +24,7 @@ const Auth = () => {
   const [name, setName] = useState("");
 const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.user);
-
+const dispatch=useDispatch()
   if (user.isAuthenticated) {
     return <Navigate to={"/dashboard"} replace />;
   }
@@ -49,6 +51,37 @@ const navigate = useNavigate()
       return;
     }
 
+
+if(isLogin){
+  const response = await axios.post(`${SERVER_URL}/user/login`,{email:email,password:password})
+
+ 
+if(!response.data.status){
+  toast.error(response.data.message, {
+    position: "top-center",
+    autoClose: 5000,
+    theme: "dark",
+  });
+}
+
+if(response.data.status){
+  const {token}=response.data
+
+  const tokenResponse=await axios.get(`${SERVER_URL}/user/verifyLogin`,{
+    headers:{
+      Authorization:`Bearer ${token}`
+    },
+  })
+
+  
+
+  dispatch(loginSuccess({
+    user:tokenResponse.data.user,
+token:token
+  }))
+}
+}
+
     if (!isLogin) {
       const checkName = validateFullName(name);
 
@@ -60,7 +93,7 @@ const navigate = useNavigate()
         });
         return;
       }
-        const response=await userApi.post("/user/signUp",{name:name,email:email,password:password})
+        const response=await axios.post(`${SERVER_URL}/user/signUp`,{name:name,email:email,password:password})
 
 if(!response.data.status){
   toast.error(response.data.message, {
@@ -77,8 +110,8 @@ console.log("response.data",response.data.status)
             autoClose: 5000,
             theme: "dark",
           });
-          navigate("/")
-        }
+
+setIsLogin(true)        }
     }
   };
 

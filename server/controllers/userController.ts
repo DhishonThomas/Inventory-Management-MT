@@ -17,20 +17,20 @@ export class userController {
       return;
     }
 
-    const findUser = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-    if (!findUser) {
+    if (!user) {
       res.status(200).json({ status: false, message: "Invalid credentials" });
       return;
     }
 
-    const isPasswordValid = await (User as any).comparePassword(password);
+    const isPasswordValid = await user?.comparePassword(password);
 
     if (!isPasswordValid) {
       res.status(200).json({ status: false, message: "Invalid credentials" });
       return;
     }
-    const payload = { userId: findUser?._id };
+    const payload = { userId: user?._id };
     const token = generateToken(payload);
 
     res.status(201).json({
