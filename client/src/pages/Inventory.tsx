@@ -43,9 +43,7 @@ const Inventory = () => {
   };
 
   const handleProductCreateModal = () => setIsVisibleProduct(true);
-  const handleProductModalClose = () => { 
-    fetchInventory()
-    setIsVisibleProduct(false)};
+  const handleProductModalClose = () =>   setIsVisibleProduct(false)
 
   const handlePaymentModalOpen = (product: any) => {
     setSelectedProduct(product);
@@ -54,6 +52,7 @@ const Inventory = () => {
 
   const handlePaymentModalClose = () => {
     setSelectedProduct(null);
+    fetchInventory()
     setPaymentModal(false);
   };
 
