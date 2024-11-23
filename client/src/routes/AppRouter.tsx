@@ -7,6 +7,7 @@ import InventoryCreate from "../pages/InventoryCreate";
 import User from "../pages/User";
 import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "../utils/PrivateRoute";
+import Sales from "../pages/Sales";
 
 const AppRouter=()=>{
 
@@ -22,6 +23,7 @@ const AppRouter=()=>{
             <Route path="customer/create" element={<CustomerCreate />} />
             <Route path="inventory" element={<Inventory/>}/>
             <Route path="inventory/create" element={<InventoryCreate/>}/>
+            <Route path="sale" element={<Sales/>}/>
             </Route>
             </Route>
 
