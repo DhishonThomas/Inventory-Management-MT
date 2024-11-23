@@ -198,7 +198,7 @@ const handleProductEditModalClose=()=>{
 
     <Modal
       isVisible={isVisibleEditProduct}
-      title="Add Product"
+      title="Edit Product"
       onClose={handleProductEditModalClose}
       maxWidth5Xl
     >

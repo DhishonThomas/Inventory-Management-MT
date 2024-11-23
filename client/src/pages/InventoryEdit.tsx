@@ -39,10 +39,27 @@ if(checkDescription!=null){
       price,
       userId,
     });
+
+const {message,status}=response.data
+
+if(!status){
+  toast.error(message, {
+    position: "top-center",
+    autoClose: 5000,
+    theme: "dark",
+  });
+  return
+}
+
+toast.success(message, {
+  position: "top-center",
+  autoClose: 5000,
+  theme: "dark",
+});
   };
 
   return (
-    <Wrapper title="Product create">
+    <Wrapper title="Product Edit">
       <InputField
         name="name"
         type="text"
