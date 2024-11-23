@@ -56,7 +56,7 @@ const InventoryCreate = ({userId}:any) => {
       />
       <InputField
         name="price"
-        type="number"
+        type="text"
         value={price}
         bgColor="bg-gray-600"
         label="Price"
