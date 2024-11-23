@@ -4,6 +4,50 @@ import Inventory from "../models/inventoryModel"
 export class salesController {
   constructor() {}
 
+
+  async getInventoryReport(req:Request,res:Response){
+    const {userId,productId}=req.params
+  
+  if(!userId||!productId){
+    res.status(200).json({ status: false, message: "No userIds" });
+    return;
+  }
+  const sales = await Sales.find({ userId: userId,item_id:productId });
+
+  console.log("sales",sales);
+  
+  res
+    .status(201)
+    .json({
+      status: true,
+      message: "Successfully get inventors sales",
+      sales: sales,
+    });
+  
+  
+  }
+  async getCustomerReport(req:Request,res:Response){
+    const {userId,customerId}=req.params
+  
+  if(!userId||!customerId){
+    res.status(200).json({ status: false, message: "No userIds" });
+    return;
+  }
+  const sales = await Sales.find({ userId: userId,customer_id:customerId });
+
+  console.log("sales",sales);
+  
+  res
+    .status(201)
+    .json({
+      status: true,
+      message: "Successfully get customers sales",
+      sales: sales,
+    });
+  
+  
+  }
+
   async createSale(req: Request, res: Response) {
     const { item_id, quantity, customer_id, payment_type, userId, totalPrice } =
       req.body;

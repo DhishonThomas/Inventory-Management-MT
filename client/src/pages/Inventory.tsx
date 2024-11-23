@@ -317,7 +317,7 @@ const Inventory = () => {
         maxWidth5Xl
       >
         <InventoryReport
-          productId={selectedProduct?._id}
+          product={selectedProduct}
           handleClose={handlePaymentModalClose}
         />
       </Modal>

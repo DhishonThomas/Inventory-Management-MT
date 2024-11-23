@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
 import Inventory from "../models/inventoryModel";
 import { InventoryValidator } from "../utils/validatorManager";
+
+
 export class InventoryController {
   constructor() {}
+
+
 
 async getSingleProduct(req:Request,res:Response){
   const {userId,productId}=req.params
