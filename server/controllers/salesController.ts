@@ -5,10 +5,8 @@ export class salesController {
   constructor() {}
 
   async createSale(req: Request, res: Response) {
-    console.log("server reached..");
     const { item_id, quantity, customer_id, payment_type, userId, totalPrice } =
       req.body;
-    console.log(req.body);
     const createSale = await Sales.create({
       totalPrice: totalPrice,
       item_id: item_id,
