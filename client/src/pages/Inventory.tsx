@@ -231,6 +231,13 @@ const handleProductEditModalClose=()=>{
                       }
                       bgColor="bg-red-500 text-white px-3 py-1 rounded-md"
                     />
+                    <Button
+                      text="Report"
+                      onclick={() => handlePaymentModalOpen(product)}
+                      bgColor="bg-pink-500 text-white px-3 py-1 rounded-md"
+                      disabled={product.quantity>0?false:true}
+                    />
+
                    {product.quantity>0&& <Button
                       text="Record Payment"
                       onclick={() => handlePaymentModalOpen(product)}
@@ -241,7 +248,7 @@ const handleProductEditModalClose=()=>{
                        <Button
                        text="No Stock"
                        onclick={() => handlePaymentModalOpen(product)}
-                       bgColor="bg-yellow-500 text-white rounded-md"
+                       bgColor="bg-yellow-500 text-white hover:cursor-not-allowed rounded-md"
                        disabled={product.quantity>0?false:true}
                      />
                     }
