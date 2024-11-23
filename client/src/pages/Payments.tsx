@@ -55,7 +55,25 @@ const Payments = ({ userId, productId }: any) => {
       userId: userId,
     };
 
-    console.log("responsedata..>>", data);
+
+    const response=await userApi.post("/sales",{...data})
+const {status,message}=response.data
+    if(!status){
+      toast.error(message, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    return
+    }
+
+    setIsVisible(false)
+    
+    toast.success(message, {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+    });
   };
 
   const fetchCustomers = async (query = "", page = 1) => {

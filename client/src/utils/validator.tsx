@@ -17,6 +17,18 @@ export const validatePassword=(password:string)=>{
     return null
 }
 
+
+
+export const validateAddress=(address:string)=>{
+    
+  const addressRegex = /^[a-zA-Z0-9.,'!?$%()\-\n ]{5,25}$/.test(address);
+  if(!addressRegex){
+      return {errMessage:"Address must be between 5 and 25 characters.",name:"Description"};
+  }
+  return null
+}
+
+
 export const validateFullName = (name: string) => {
     const nameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(name);
   

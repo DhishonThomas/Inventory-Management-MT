@@ -3,6 +3,8 @@ import userApi from "../utils/axiosInterceptors/userApiService";
 import Wrapper from "../components/ui/Wrapper";
 import InputField from "../components/ui/InputField";
 import Button from "../components/ui/Button";
+import { toast } from "react-toastify";
+import { validateAddress, validateFullName } from "../utils/validator";
 
 const CustomerCreate = ({ userId }: any) => {
   const [name, setName] = useState("");
@@ -10,9 +12,42 @@ const CustomerCreate = ({ userId }: any) => {
   const [mobile, setMobile] = useState(0);
 
   const handleSubmit = async () => {
-    alert("dkd")
+
+    const checkName=validateFullName(name)
+    const checkAddress=validateAddress(address)
+    const checkMobile=validate4
+    if(checkName!=null){
+      toast.error(checkName.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });  
+      
+      return
+    }
+
     const response = await userApi.post("/customer", { name, address, mobile,userId });
-  console.log(response.data)
+const {status,message}=response.data
+
+if(!status){
+  toast.error(message, {
+    position: "top-center",
+    autoClose: 5000,
+    theme: "dark",
+  });  
+  return
+}
+
+toast.success(message, {
+  position: "top-center",
+  autoClose: 5000,
+  theme: "dark",
+});
+
+setName("")
+setAddress("")
+setMobile(0)
+
   };
 
   return (
