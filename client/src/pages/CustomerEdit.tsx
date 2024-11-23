@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import userApi from "../utils/axiosInterceptors/userApiService";
 import Wrapper from "../components/ui/Wrapper";
 import InputField from "../components/ui/InputField";
@@ -47,7 +47,7 @@ const CustomerEdit = ({ userId,customer }: any) => {
       return 
     }
 
-    const response = await userApi.put("/customer", { _id:customer._id,name, address, mobile,userId });
+    const response = await userApi.put("/customer", {customerId:customer._id, name, address, mobile,userId });
 const {status,message}=response.data
 
 if(!status){
@@ -73,7 +73,7 @@ toast.success(message, {
       <InputField
         type="text"
         label="Customer Name"
-        bgColor="bg-gray-400"
+        bgColor="bg-gray-600"
         name="name"
         value={name}
         onchange={(e) => {
@@ -83,7 +83,7 @@ toast.success(message, {
       <InputField
         type="text"
         label="Customer Address"
-        bgColor="bg-gray-400"
+        bgColor="bg-gray-600"
         name="address"
         value={address}
         onchange={(e) => {
@@ -93,7 +93,7 @@ toast.success(message, {
       <InputField
         type="text"
         label="Customer Mobile"
-        bgColor="bg-gray-400"
+        bgColor="bg-gray-600"
         name="number"
         value={mobile}
         onchange={(e:any) => {
@@ -105,9 +105,10 @@ toast.success(message, {
       />
 
       <Button
-        text="Add Customer"
+        text="Update Customer"
+        onHover="hover:cursor-pointer"
         onclick={handleSubmit}
-        bgColor="bg-gray-400"
+        bgColor="bg-gray-800"
       />
     </Wrapper>
   );
