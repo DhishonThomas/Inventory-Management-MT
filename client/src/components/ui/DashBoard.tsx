@@ -30,7 +30,7 @@ useEffect(()=>{
 
   return (
     <div className="flex h-screen pt-20 relative">
-      <SideBar menuItems={menuItems} bgColor={bgColor} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <SideBar menuItems={menuItems} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <main
         className={`flex-1 ${scrollY?"overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700":"overflow-y-hidden"} p-4 transition-all duration-300 ${isSidebarOpen ? "ml-72" : "ml-24"}`}

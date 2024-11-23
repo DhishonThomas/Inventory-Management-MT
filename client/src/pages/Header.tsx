@@ -19,7 +19,7 @@ navigate("/")
   }
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 bg-gray-600 shadow-md">
+    <header className="w-full fixed top-0 left-0 z-50 bg-indigo-900 shadow-md">
       <div className="flex items-center justify-between px-10 ">
         <div>
           <img
@@ -32,7 +32,7 @@ navigate("/")
           <div className="flex items-center justify-end pr-10">
             <Button
 
-              bgColor={"bg-red-600"}
+              bgColor={"bg-gray-800"}
               text="Logout"
               onclick={handleSubmit}
               type="button"

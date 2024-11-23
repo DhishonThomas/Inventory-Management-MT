@@ -9,9 +9,9 @@ interface SideBarProps {
   toggleSidebar: () => void;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ menuItems, bgColor = 'bg-stone-900', isOpen, toggleSidebar }) => {
+const SideBar: React.FC<SideBarProps> = ({ menuItems, bgColor = 'bg-indigo-900', isOpen, toggleSidebar }) => {
   return (
-    <div className={`fixed left-0 h-full ${bgColor} text-white p-4 transition-all duration-300 ${isOpen ? "w-72" : "w-17"}`}>
+    <div className={`fixed left-0 h-full ${bgColor}   text-white p-4 transition-all duration-300 ${isOpen ? "w-72" : "w-17"}`}>
       <div className={`flex ${isOpen?"justify-end":"justify-end"} items-center mb-6`}>
         <button onClick={toggleSidebar} className="text-3xl  focus:outline-none">
           {isOpen ? <FaChevronLeft /> : <FaBars />}

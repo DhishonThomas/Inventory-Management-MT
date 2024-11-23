@@ -135,13 +135,13 @@ const handleProductEditModalClose=()=>{
                 <td className="p-2 border border-gray-800">
                   {product.description}
                 </td>
-                <td className="p-2 border border-gray-300 text-center">
+                <td className="p-2 border border-gray-800 text-center">
                   {product.quantity}
                 </td>
-                <td className="p-2 border border-gray-300 text-green-600 font-semibold">
+                <td className="p-2 border border-gray-800 text-green-600 font-semibold">
                   ₹{product.price}
                 </td>
-                <td className="p-2 border border-gray-300 text-center">
+                <td className="p-2 border border-gray-800 text-center">
                   <div className="flex items-center justify-center gap-2">
                     <Button
                       text="Edit"
@@ -200,6 +200,7 @@ const handleProductEditModalClose=()=>{
       isVisible={isVisibleEditProduct}
       title="Add Product"
       onClose={handleProductEditModalClose}
+      maxWidth5Xl
     >
       <InventoryEdit  userId={_id} inventoryData={selectedProduct} />
     </Modal>
