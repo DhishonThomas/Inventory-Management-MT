@@ -9,6 +9,6 @@ router.get("/:userId",authMiddleware,(req,res)=>inventory_controller.getInventor
 router.get("/:userId/:productId",authMiddleware,(req,res)=>inventory_controller.getSingleProduct(req,res))
 router.post("/",authMiddleware,(req,res)=>inventory_controller.createInventory(req,res))
 router.put("/",authMiddleware,(req,res)=>inventory_controller.updateInventory(req,res))
-router.delete("/",authMiddleware,(req,res)=>inventory_controller.deleteInventory(req,res))
+router.delete("/:userId/:inventoryId",authMiddleware,(req,res)=>inventory_controller.deleteInventory(req,res))
 
 export default router

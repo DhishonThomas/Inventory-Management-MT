@@ -9,6 +9,7 @@ import Modal from "../components/ui/Modal";
 import InventoryCreate from "./InventoryCreate";
 import Payments from "./Payments";
 import InventoryEdit from "./InventoryEdit";
+import Swal from "sweetalert2";
 
 const Inventory = () => {
   const user: any = useSelector((state: RootState) => state.user);
@@ -20,6 +21,79 @@ const Inventory = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const { _id } = user.user;
+
+
+  const handleDelete = async (productId: string) => {
+    Swal.fire({
+      title: "Delete Product?",
+      text: "Do you really want to delete this Product? This action cannot be undone!",
+      icon: "warning",
+      background: "#1a1a1a",
+      color: "#fff",
+      iconColor: "#d33",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      showClass: {
+        popup: "animate__animated animate__fadeInDown",
+      },
+      hideClass: {
+        popup: "animate__animated animate__fadeOutUp",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          
+         const response=await userApi.delete(`/inventory/${_id}/${productId}`)
+          
+         const {message,status}=response.data
+
+         if(!status){
+          Swal.fire({
+            title: "Deletion Unsuccessful!",
+            text: "There was a problem deleting the product.",
+            icon: "error",
+            background: "#1a1a1a",
+            color: "#fff",
+            confirmButtonColor: "#d33",
+            iconColor: "#d33",
+          });
+          return 
+         }
+         
+         Swal.fire({
+            title: "Deleted!",
+            text: "The product has been successfully deleted.",
+            icon: "success",
+            background: "#1a1a1a",
+            color: "#fff",
+            confirmButtonColor: "#4CAF50",
+            iconColor: "#4CAF50",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+
+          fetchInventory();
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: "There was a problem deleting the customer.",
+            icon: "error",
+            background: "#1a1a1a",
+            color: "#fff",
+            confirmButtonColor: "#d33",
+            iconColor: "#d33",
+          });
+        }
+      }
+    });
+  };
+
 
   const fetchInventory = async () => {
     try {
@@ -45,7 +119,9 @@ const Inventory = () => {
   };
 
   const handleProductCreateModal = () => setIsVisibleProduct(true);
-  const handleProductModalClose = () =>   setIsVisibleProduct(false)
+  const handleProductModalClose = () =>   {
+    fetchInventory()
+    setIsVisibleProduct(false)}
 
   const handleModalProductEdit=(product:any)=>{
     setSelectedProduct(product)
@@ -151,7 +227,7 @@ const handleProductEditModalClose=()=>{
                     <Button
                       text="Delete"
                       onclick={() =>
-                        console.log("View customers for", product)
+                        handleDelete(product._id)
                       }
                       bgColor="bg-red-500 text-white px-3 py-1 rounded-md"
                     />

@@ -118,7 +118,7 @@ console.log("server reached",req.body)
   }
 
   async deleteInventory(req: Request, res: Response) {
-    const { userId, inventoryId } = req.body;
+    const { userId, inventoryId } = req.params;
 
     if (!userId || !inventoryId) {
       res.status(200).json({ status: false, message: "No userIds" });
@@ -126,5 +126,6 @@ console.log("server reached",req.body)
     }
 
     await Inventory.findByIdAndDelete({ _id: inventoryId, userId: userId });
+    res.status(201).json({ status: true, message: "Deleted" });
   }
 }
