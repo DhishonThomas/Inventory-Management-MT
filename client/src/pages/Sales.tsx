@@ -3,6 +3,11 @@ import userApi from "../utils/axiosInterceptors/userApiService";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toast } from "react-toastify";
+import jsPDF from "jspdf";
+import Button from "../components/ui/Button";
+import * as XLSX from "xlsx";
+import { exportDataToExcel, exportTableToPDF, printTable } from "../utils/dataExports";
+
 
 const Sales = () => {
   const user: any = useSelector((state: RootState) => state.user);
@@ -34,6 +39,88 @@ const Sales = () => {
     }
   };
 
+  const exportToPDF=()=>exportTableToPDF("sales-table")
+  const exportToExcel=()=>exportDataToExcel(sales)
+  const print=()=>printTable("sales-table")
+
+
+
+  // const exportToExcel = () => {
+  //   const worksheet = XLSX.utils.json_to_sheet(sales);
+  //   const workbook = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Sales");
+  //   XLSX.writeFile(workbook, "sales_data.xlsx");
+  // };
+
+  // const printData = () => {
+  //   const tableContent = document.getElementById("sales-table")?.outerHTML || "";
+  //   if (!tableContent) {
+  //     toast.error("Unable to find the sales table for printing", {
+  //       position: "top-center",
+  //       autoClose: 5000,
+  //       theme: "dark",
+  //     });
+  //     return;
+  //   }
+  
+  //   // Open a new window for printing
+  //   const printWindow = window.open("", "_blank");
+  //   if (printWindow) {
+  //     printWindow.document.write(`
+  //       <html>
+  //         <head>
+  //           <title>Sales Report</title>
+  //           <style>
+  //             body { font-family: Arial, sans-serif; padding: 20px; }
+  //             table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  //             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+  //             th { background-color: #f2f2f2; }
+  //           </style>
+  //         </head>
+  //         <body>
+  //           <h2>Sales Report</h2>
+  //           ${tableContent}
+  //         </body>
+  //       </html>
+  //     `);
+  //     printWindow.document.close(); // Close the document for writing
+  //     printWindow.print(); // Trigger the print dialog
+  //   } else {
+  //     toast.error("Failed to open the print window", {
+  //       position: "top-center",
+  //       autoClose: 5000,
+  //       theme: "dark",
+  //     });
+  //   }
+  // };
+  
+  // const exportToPDF = () => {
+  //   const doc = new jsPDF();
+  //   let y = 10;
+
+  //   doc.setFontSize(16);
+  //   doc.text("Sales Report", 10, y);
+  //   y += 10;
+
+  //   sales.forEach((sale, index) => {
+  //     doc.setFontSize(12);
+  //     doc.text(`ID: ${sale._id}`, 10, y);
+  //     doc.text(`Item ID: ${sale.item_id}`, 10, y + 5);
+  //     doc.text(`Quantity: ${sale.quantity}`, 10, y + 10);
+  //     doc.text(`Customer ID: ${sale.customer_id}`, 10, y + 15);
+  //     doc.text(`Payment Type: ${sale.payment_type}`, 10, y + 20);
+  //     doc.text(`Total Price: ₹${sale.totalPrice}`, 10, y + 25);
+  //     y += 30;
+  //     if (y > 280) {
+  //       doc.addPage();
+  //       y = 10;
+  //     }
+  //   });
+
+  //   doc.save("sales_data.pdf");
+  // };
+
+
   useEffect(() => {
     fetchSales();
   }, []);
@@ -50,9 +137,14 @@ const Sales = () => {
     <div className="p-6 bg-gray-800 min-h-screen">
       <h1 className="text-2xl font-bold text-white mb-4">Sales</h1>
 
-      {/* Sales Table */}
+      {/* Sales Table */} 
       <div className="bg-gray-700 p-4 rounded-lg shadow-md">
-        <table className="w-full text-left border-collapse">
+      <Button text="Export PDF" type="button" bgColor="bg-gray-600" onclick={exportToPDF}/>
+      <Button text="Export Excel" type="button" bgColor="bg-gray-600" onclick={exportToExcel}/>
+      <Button text="Print" type="button" bgColor="bg-gray-600" onclick={print}/>
+
+        <table id="sales-table" className="w-full text-left border-collapse">
+
           <thead>
             <tr className="text-gray-400">
               <th className="p-3 border-b border-gray-600">Sale ID</th>
