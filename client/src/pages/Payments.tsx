@@ -21,14 +21,22 @@ const Payments = ({ userId, productId,handleClose }: any) => {
   const [quantity, setQuantity] = useState(0);
   const [selectedCustomer, setSelectedCustomer] = useState<null | string>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [payment, setPayment] = useState<null | string>(null);
+
+const PAGE_SIZE=5
 
   const handleModalOpen = () => setIsVisible(true);
   const handleModalClose = () => {
     fetchCustomers()
      setIsVisible(false)};
+
+     const [currentPage, setCurrentPage] = useState(1);
+    
+     const handlePageChange = (page: number) => {
+       setCurrentPage(page);
+     };
+
+
   const handleSubmit = async () => {
     if (selectedCustomer === null) {
       toast.error("Select a customer", {
@@ -83,7 +91,6 @@ handleClose()
     );
     const { customers: customerData, totalPages: total } = response.data;
     setCustomers(customerData);
-    setTotalPages(total);
   };
 
   const fetchProduct = async () => {
@@ -136,10 +143,11 @@ handleClose()
       item.mobile.toString().includes(searchQuery)
   );
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    fetchCustomers(searchQuery, page);
-  };
+  const totalPages = Math.ceil(filteredCustomers.length / PAGE_SIZE);
+  const paginatedCustomers = filteredCustomers.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
   useEffect(() => {
     fetchCustomers();
@@ -148,111 +156,138 @@ handleClose()
 
   return (
     <Wrapper title="Checkout" maxWidth5Xl>
-      <div className="product-card border p-4 rounded-lg shadow-sm mb-6 bg-gray-600">
-        <h2 className="text-xl font-bold">{product.name}</h2>
-        <p>{product.description}</p>
-        <p>
-          <span className="font-bold">Price:</span> ₹{product.price}
-        </p>
-        <p>
-          <span className="font-bold">Available Quantity:</span>{" "}
-          {product.quantity}
-        </p>
-        <div className="quantity-controls mt-4 flex items-center gap-2 ">
-          <Button
-            onclick={handleQuantityIncrease}
-            text={<TiPlus />}
-            textColor="text-pink-400 text-2xl"
-          />
-          <p>{quantity}</p>
-          <Button
-            onclick={handleQuantityDecrease}
-            text={<TiMinus />}
-            textColor="text-pink-400 text-2xl"
-          />
-        </div>
-        <p className="mt-2">
-          <span className="font-bold">Total Price:</span> ₹{price}
-        </p>
-        <Button text="Sale" type="button" onclick={handleSubmit} />
+      <div className="checkout-container grid lg:grid-cols-2 gap-6">
+        {/* Product Details Section */}
+        <div className="product-card border p-6 rounded-lg shadow-md bg-gradient-to-r from-gray-700 to-gray-900 text-white">
+          <h2 className="text-2xl font-bold mb-4">{product.name}</h2>
+          <p className="text-gray-300 mb-2">{product.description}</p>
+          <p className="mb-2">
+            <span className="font-bold">Price:</span> ₹{product.price}
+          </p>
+          <p className="mb-4">
+            <span className="font-bold">Available Quantity:</span>{" "}
+            {product.quantity}
+          </p>
 
-        <input
-          type="radio"
-          name="Cash"
-          checked={payment === "Cash"}
-          onChange={() => setPayment("Cash")}
-        />
-
-        <input
-          type="radio"
-          name="Online"
-          checked={payment === "Online"}
-          onChange={() => setPayment("Online")}
-        />
-      </div>
-
-      <div className="customer-section">
-        <div className="flex items-center justify-between mb-4">
-          <InputField
-            label="Search Customers"
-            name="search"
-            type="text"
-            value={searchQuery}
-            onchange={handleSearchChange}
-          />
-          <Button
-            text="Add Customer"
-            bgColor="bg-gray-800"
-            onclick={handleModalOpen}
-          />
-        </div>
-
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Select</th>
-              <th className="border border-gray-300 p-2">Name</th>
-              <th className="border border-gray-300 p-2">Mobile</th>
-              <th className="border border-gray-300 p-2">Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredCustomers.map((customer: any) => (
-              <tr key={customer._id}>
-                <td className="border border-gray-300 p-2 text-center">
-                  <input
-                    type="radio"
-                    name="selectedCustomer"
-                    checked={selectedCustomer === customer._id}
-                    onChange={() => handleCustomerSelect(customer._id)}
-                  />
-                </td>
-                <td className="border border-gray-300 p-2">{customer.name}</td>
-                <td className="border border-gray-300 p-2">
-                  {customer.mobile}
-                </td>
-                <td className="border border-gray-300 p-2">
-                  {customer.address}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="pagination mt-4 flex justify-center">
-          {[...Array(totalPages)].map((_, index) => (
+          {/* Quantity Controls */}
+          <div className="quantity-controls flex items-center gap-4 mb-4">
             <Button
-              key={index}
-              text={`${index + 1}`}
-              onclick={() => handlePageChange(index + 1)}
-              bgColor={
-                currentPage === index + 1 ? "bg-blue-500" : "bg-gray-400"
-              }
+              onclick={handleQuantityDecrease}
+              text={<TiMinus />}
+              textColor="text-gray-300 text-xl"
+              bgColor="bg-gray-800"
             />
-          ))}
+            <span className="text-lg font-semibold">{quantity}</span>
+            <Button
+              onclick={handleQuantityIncrease}
+              text={<TiPlus />}
+              textColor="text-gray-300 text-xl"
+              bgColor="bg-gray-800"
+            />
+          </div>
+
+          <p className="mb-4">
+            <span className="font-bold">Total Price:</span> ₹{price}
+          </p>
+
+          {/* Payment Method */}
+          <div className="payment-methods flex items-center gap-4 mb-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="payment"
+                checked={payment === "Cash"}
+                onChange={() => setPayment("Cash")}
+              />
+              <span>Cash</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="payment"
+                checked={payment === "Online"}
+                onChange={() => setPayment("Online")}
+              />
+              <span>Online</span>
+            </label>
+          </div>
+
+          <Button
+            text="Proceed to Sale"
+            type="submit"
+            onclick={handleSubmit}
+            bgColor="bg-blue-500 text-white font-semibold"
+          />
+        </div>
+
+        {/* Customer Section */}
+        <div className="customer-section border p-6 rounded-lg shadow-md bg-gray-800">
+          <div className="flex items-center justify-between mb-4">
+            <InputField
+              label="Search Customers"
+              name="search"
+              type="text"
+              value={searchQuery}
+              onchange={handleSearchChange}
+            />
+            <Button
+              text="Add Customer"
+              bgColor="bg-blue-500 text-white"
+              onclick={handleModalOpen}
+            />
+          </div>
+
+          <table className="w-full border-collapse border border-gray-800 text-sm">
+            <thead className="bg-gray-800 text-white">
+              <tr>
+                <th className="border border-gray-800 p-2">Select</th>
+                <th className="border border-gray-800 p-2">Name</th>
+                <th className="border border-gray-800 p-2">Mobile</th>
+                <th className="border border-gray-800 p-2">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedCustomers.map((customer: any) => (
+                <tr key={customer._id}>
+                  <td className="border border-gray-800 p-2 text-center">
+                    <input
+                      type="radio"
+                      name="selectedCustomer"
+                      checked={selectedCustomer === customer._id}
+                      onChange={() => handleCustomerSelect(customer._id)}
+                    />
+                  </td>
+                  <td className="border border-gray-800 p-2">{customer.name}</td>
+                  <td className="border border-gray-800 p-2">
+                    {customer.mobile}
+                  </td>
+                  <td className="border border-gray-800 p-2">
+                    {customer.address}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Pagination */}
+          <div className="pagination mt-4 flex justify-center gap-2">
+            {[...Array(totalPages)].map((_, index) => (
+              <Button
+                key={index}
+                text={`${index + 1}`}
+                onclick={() => handlePageChange(index + 1)}
+                bgColor={
+                  currentPage === index + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-black"
+                }
+              />
+            ))}
+          </div>
         </div>
       </div>
 
+      {/* Add Customer Modal */}
       <Modal
         isVisible={isVisible}
         maxWidth2Xl
@@ -262,6 +297,7 @@ handleClose()
         <CustomerCreate userId={userId} />
       </Modal>
     </Wrapper>
+
   );
 };
 

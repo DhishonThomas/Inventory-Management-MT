@@ -16,7 +16,7 @@ const Customer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editCustomer, setEditCustomer] = useState<any>(null);
   const [isVisible, setIsVisible] = useState(false);
-
+const [isEditVisible,setIsEditVisible]=useState(false)
   const user: any = useSelector((state: RootState) => state.user);
   const { _id } = user.user;
 
@@ -29,7 +29,7 @@ const Customer = () => {
 
   const handleEdit = (customer: any) => {
     setEditCustomer(customer);
-    setIsVisible(true);
+    setIsEditVisible(true);
   };
 
   const handleDelete = async (customerId: string) => {
@@ -43,6 +43,11 @@ const Customer = () => {
     setIsVisible(false);
     setEditCustomer(null);
   };
+  const handleModalEditClose=()=>{
+    setIsEditVisible(false)
+    fetchCustomers();
+
+  }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -152,6 +157,15 @@ const Customer = () => {
           onClose={() => {
             handleModalClose();
             fetchCustomers();
+          }}
+        />
+      </Modal>
+      <Modal isVisible={isEditVisible} maxWidth5Xl onClose={handleModalEditClose} title="Customer">
+        <CustomerCreate
+          userId={_id}
+          customer={editCustomer}
+          onClose={() => {
+            handleModalEditClose();
           }}
         />
       </Modal>

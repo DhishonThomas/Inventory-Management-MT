@@ -60,7 +60,7 @@ console.log("create customer reached",req.body);
   }
 
   async updateCustomer(req: Request, res: Response) {
-    const { name, address, customerId, userId, mobile } = req.body;
+    const {name, address, customerId, userId, mobile } = req.body;
 
     if (!userId || !customerId) {
       res.status(200).json({ status: false, message: "No userId" });
