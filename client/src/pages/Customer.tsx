@@ -7,6 +7,7 @@ import InputField from "../components/ui/InputField";
 import Modal from "../components/ui/Modal";
 import CustomerCreate from "./CustomerCreate";
 import CustomerEdit from "./CustomerEdit";
+import Swal from "sweetalert2";
 
 const PAGE_SIZE = 5;
 
@@ -34,11 +35,76 @@ const Customer = () => {
   };
 
   const handleDelete = async (customerId: string) => {
-    if (confirm("Are you sure you want to delete this customer?")) {
-      await userApi.delete(`/customer/${_id}/${customerId}`);
-      fetchCustomers();
-    }
-  };
+        Swal.fire({
+          title: "Delete Customer?",
+          text: "Do you really want to delete this Customer? This action cannot be undone!",
+          icon: "warning",
+          background: "#1a1a1a",
+          color: "#fff",
+          iconColor: "#d33",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              
+             const response=await userApi.delete(`/customer/${_id}/${customerId}`)
+              
+             const {message,status}=response.data
+
+             if(!status){
+              Swal.fire({
+                title: "Deletion Unsuccessful!",
+                text: "There was a problem deleting the customer.",
+                icon: "error",
+                background: "#1a1a1a",
+                color: "#fff",
+                confirmButtonColor: "#d33",
+                iconColor: "#d33",
+              });
+              return 
+             }
+             
+             Swal.fire({
+                title: "Deleted!",
+                text: "The customer has been successfully deleted.",
+                icon: "success",
+                background: "#1a1a1a",
+                color: "#fff",
+                confirmButtonColor: "#4CAF50",
+                iconColor: "#4CAF50",
+                showClass: {
+                  popup: "animate__animated animate__fadeInDown",
+                },
+                hideClass: {
+                  popup: "animate__animated animate__fadeOutUp",
+                },
+              });
+
+              fetchCustomers();
+            } catch (error) {
+              Swal.fire({
+                title: "Error!",
+                text: "There was a problem deleting the customer.",
+                icon: "error",
+                background: "#1a1a1a",
+                color: "#fff",
+                confirmButtonColor: "#d33",
+                iconColor: "#d33",
+              });
+            }
+          }
+        });
+      };
+
 
   const handleModalClose = () => {
     setIsVisible(false);
@@ -59,7 +125,6 @@ const Customer = () => {
         customer.name.toLowerCase().includes(query.toLowerCase()) ||
       customer.mobile.toString().includes(query)
     );
-console.log("filteredCustoemrs",filteredCustomers)
     setCurrentPage(1);
     setPaginatedCustomers(filteredCustomers.slice(0, PAGE_SIZE));
   };

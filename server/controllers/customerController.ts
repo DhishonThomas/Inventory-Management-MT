@@ -92,12 +92,14 @@ console.log("create customer reached",req.body);
   }
 
   async deleteCustomer(req: Request, res: Response) {
-    const { userId, customerId } = req.body;
+    const { userId, customerId } = req.params;
 
     if (!userId || !customerId) {
       res.status(200).json({ status: false, message: "No user with this id." });
     }
 
     await Customer.findByIdAndDelete({ _id: customerId, userId: userId });
+
+    res.status(201).json({ status: true, message: "Deleted" })
   }
 }

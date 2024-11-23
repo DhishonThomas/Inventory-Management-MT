@@ -8,6 +8,6 @@ const router = express.Router()
 router.get("/:userId",authMiddleware,(req,res)=>customer_controller.getAllCustomers(req,res))
 router.post("/",authMiddleware,(req,res)=>customer_controller.createCustomer(req,res))
 router.put("/",authMiddleware,(req,res)=>customer_controller.updateCustomer(req,res))
-router.delete("/",authMiddleware,(req,res)=>customer_controller.deleteCustomer(req,res))
+router.delete("/:userId/:customerId",authMiddleware,(req,res)=>customer_controller.deleteCustomer(req,res))
 
 export default router
