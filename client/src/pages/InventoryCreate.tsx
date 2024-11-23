@@ -3,6 +3,8 @@ import InputField from "../components/ui/InputField";
 import Wrapper from "../components/ui/Wrapper";
 import userApi from "../utils/axiosInterceptors/userApiService";
 import Button from "../components/ui/Button";
+import { toast } from "react-toastify";
+import { validateDescription, validateFullName } from "../utils/validator";
 
 const InventoryCreate = ({userId}:any) => {
   const [name, setName] = useState("");
@@ -11,12 +13,50 @@ const InventoryCreate = ({userId}:any) => {
   const [price, setPrice] = useState(0);
 
 
-  const handleSubmit=async()=>{
-    const response=await userApi.post("/inventory/",{name,description,quantity,price,userId})
 
-    console.log("response>>",response.data)
 
-  }
+  const handleSubmit = async () => {
+    const checkName = validateFullName(name);
+    const checkDescription = validateDescription(description);
+if(checkName!=null){
+    toast.error(checkName.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    return 
+}
+
+if(checkDescription!=null){
+    toast.error(checkDescription.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    return 
+}
+const response=await userApi.post("/inventory/",{name,description,quantity,price,userId})
+
+
+const {message,status}=response.data
+
+if(!status){
+  toast.error(message, {
+    position: "top-center",
+    autoClose: 5000,
+    theme: "dark",
+  });
+  return
+}
+
+toast.success(message, {
+  position: "top-center",
+  autoClose: 5000,
+  theme: "dark",
+});
+  };
+
+
   
   return (
     <Wrapper title="Product create">

@@ -16,7 +16,7 @@ const InventoryEdit = ({ userId, inventoryData }: any) => {
     const checkName = validateFullName(name);
     const checkDescription = validateDescription(description);
 if(checkName!=null){
-    toast.success(checkName.errMessage, {
+    toast.error(checkName.errMessage, {
         position: "top-center",
         autoClose: 5000,
         theme: "dark",
@@ -25,7 +25,7 @@ if(checkName!=null){
 }
 
 if(checkDescription!=null){
-    toast.success(checkDescription.errMessage, {
+    toast.error(checkDescription.errMessage, {
         position: "top-center",
         autoClose: 5000,
         theme: "dark",

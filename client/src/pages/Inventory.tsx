@@ -129,7 +129,7 @@ const handleProductEditModalClose=()=>{
             currentItems.map((product: any) => (
               <tr
                 key={product._id}
-                className="hover:bg-gray-500 transition-all"
+                className="hover:cursor-pointer hover:text-base hover:font-extrabold transition-all"
               >
                 <td className="p-2 border border-gray-800">{product.name}</td>
                 <td className="p-2 border border-gray-800">
@@ -209,6 +209,7 @@ const handleProductEditModalClose=()=>{
       isVisible={isVisibleProduct}
       title="Add Product"
       onClose={handleProductModalClose}
+      maxWidth5Xl
     >
       <InventoryCreate userId={_id} />
     </Modal>
