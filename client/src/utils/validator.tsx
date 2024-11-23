@@ -39,7 +39,14 @@ export const validateAddress=(address:string)=>{
   return null
 }
 
-
+export const validateDescription=(description:string)=>{
+    
+  const descriptionRegex = /^[a-zA-Z0-9.,'!?$%()\-\n ]{10,500}$/.test(description);
+  if(!descriptionRegex){
+      return {errMessage:"Description must be between 10 and 500 characters and can include letters, numbers, and basic punctuation.",name:"Description"};
+  }
+  return null
+}
 export const validateFullName = (name: string) => {
     const nameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(name);
   

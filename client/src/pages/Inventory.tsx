@@ -66,76 +66,155 @@ const Inventory = () => {
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5)
+
+  const totalPages = Math.ceil(filteredInventory.length / itemsPerPage);
+  const currentItems = filteredInventory.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
     fetchInventory();
   }, []);
 
   return (
-    <div className="inventory-container">
-      <div className="inventory-header">
-        <input
-          type="text"
-          placeholder="Search by name or description"
-          value={searchQuery}
-          onChange={handleSearch}
-          className="search-input"
-        />
-        <Button text="Add Product" onclick={handleProductCreateModal} />
-      </div>
+    <div className="inventory-container p-6 bg-gray-800 rounded-lg shadow-md">
+    {/* Header Section */}
+    <div className="inventory-header flex justify-between items-center mb-6">
+      <input
+        type="text"
+        placeholder="Search by name or description"
+        value={searchQuery}
+        onChange={handleSearch}
+        className="search-input p-2 border rounded-lg shadow-sm w-1/2"
+      />
+      <Button
+        text="Add Product"
+        onclick={handleProductCreateModal}
+        bgColor="bg-blue-500 text-white px-4 py-2 rounded-lg"
+      />
+    </div>
 
-      <table className="inventory-table">
+    <div className="overflow-x-auto">
+      <table className="inventory-table w-full text-left border-collapse border border-gray-300 bg-gray-600 shadow-md rounded-lg">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Actions</th>
+          <tr className="bg-gray-900">
+            <th className="p-4 border border-gray-800">Name</th>
+            <th className="p-4 border border-gray-800">Description</th>
+            <th className="p-4 border border-gray-800">Quantity</th>
+            <th className="p-4 border border-gray-800">Price</th>
+            <th className="p-4 border border-gray-800">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredInventory.map((product: any) => (
-            <tr key={product._id}>
-              <td>{product.name}</td>
-              <td>{product.description}</td>
-              <td>{product.quantity}</td>
-              <td>${product.price}</td>
-              <td>
-                <Button
-                  text="Edit"
-                  onclick={() => console.log("Edit product", product)}
-                />
-                <Button
-                  text="View Customers"
-                  onclick={() => console.log("View customers for", product)}
-                />
-                <Button
-                  text="Record Payment"
-                  onclick={() => handlePaymentModalOpen(product)}
-                />
+          {currentItems.length > 0 ? (
+            currentItems.map((product: any) => (
+              <tr
+                key={product._id}
+                className="hover:bg-gray-500 transition-all"
+              >
+                <td className="p-2 border border-gray-800">{product.name}</td>
+                <td className="p-2 border border-gray-800">
+                  {product.description}
+                </td>
+                <td className="p-2 border border-gray-300 text-center">
+                  {product.quantity}
+                </td>
+                <td className="p-2 border border-gray-300 text-green-600 font-semibold">
+                  ₹{product.price}
+                </td>
+                <td className="p-2 border border-gray-300 text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <Button
+                      text="Edit"
+                      onclick={() => console.log("Edit product", product)}
+                      bgColor="bg-yellow-500 text-white px-3 py-1 rounded-md"
+                    />
+                    <Button
+                      text="View Customers"
+                      onclick={() =>
+                        console.log("View customers for", product)
+                      }
+                      bgColor="bg-green-500 text-white px-3 py-1 rounded-md"
+                    />
+                    <Button
+                      text="Record Payment"
+                      onclick={() => handlePaymentModalOpen(product)}
+                      bgColor="bg-red-500 text-white px-3 py-1 rounded-md"
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={5}
+                className="text-center p-2 text-gray-500 font-semibold"
+              >
+                No Products Found
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
-
-      <Modal
-        isVisible={isVisibleProduct}
-        title="Add Product"
-        onClose={handleProductModalClose}
-      >
-        <InventoryCreate userId={_id} />
-      </Modal>
-
-      <Modal
-        isVisible={paymentModalVisible}
-        title={`Record Payment for ${selectedProduct?.name}`}
-        onClose={handlePaymentModalClose}
-        maxWidth5Xl
-      >
-        <Payments userId={_id} handleClose={handlePaymentModalClose} productId={selectedProduct?._id} />
-      </Modal>
     </div>
+
+    {/* Pagination Section */}
+    <div className="pagination flex justify-center items-center mt-6">
+      {[...Array(totalPages)].map((_, index) => (
+        <button
+          key={index}
+          onClick={() => handlePageChange(index + 1)}
+          className={`px-3 py-1 mx-1 rounded-md ${
+            currentPage === index + 1
+              ? "bg-blue-500 text-white"
+              : "bg-gray-400 text-black"
+          }`}
+        >
+          {index + 1}
+        </button>
+      ))}
+    </div>
+
+
+    <Modal
+      isVisible={isVisibleProduct}
+      title="Add Product"
+      onClose={handleProductModalClose}
+    >
+      <InventoryCreate userId={_id} />
+    </Modal>
+
+    <Modal
+      isVisible={isVisibleProduct}
+      title="Add Product"
+      onClose={handleProductModalClose}
+    >
+      <InventoryCreate userId={_id} />
+    </Modal>
+
+    <Modal
+      isVisible={paymentModalVisible}
+      title={`Record Payment for ${selectedProduct?.name}`}
+      onClose={handlePaymentModalClose}
+      maxWidth5Xl
+    >
+      <Payments
+        userId={_id}
+        handleClose={handlePaymentModalClose}
+        productId={selectedProduct?._id}
+      />
+    </Modal>
+  </div>
+
+
   );
 };
 

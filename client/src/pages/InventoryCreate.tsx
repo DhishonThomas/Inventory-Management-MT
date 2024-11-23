@@ -7,7 +7,7 @@ import Button from "../components/ui/Button";
 const InventoryCreate = ({userId}:any) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState<number|string>("");
   const [price, setPrice] = useState(0);
 
 
@@ -42,13 +42,17 @@ const InventoryCreate = ({userId}:any) => {
       />
       <InputField
         name="quantity"
-        type="number"
+        type="text"
         value={quantity}
         bgColor="bg-gray-600"
         label="Quantity"
-        onchange={(e) => {
-          setQuantity(Number(e.target.value));
-        }}
+        onchange={(e:any) => {
+          if(e.target.value>=0){
+              setQuantity(Number(e.target.value));
+
+          }        }}
+
+        
       />
       <InputField
         name="price"
