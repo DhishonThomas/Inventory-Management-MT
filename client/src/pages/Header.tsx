@@ -23,7 +23,7 @@ navigate("/")
       <div className="flex items-center justify-between px-10 ">
         <div>
           <img
-            className="w-36  rounded-lg"
+            className="w-52 rounded-lg"
             src={INVENTORY_LOGO}
             alt="inventory logo"
           />

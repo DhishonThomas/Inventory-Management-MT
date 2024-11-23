@@ -32,7 +32,7 @@ interface WrapperProps {
     maxWidthMax=false,}) => {
 return (
 <div className={`flex flex-col ${minHeight}`}>
-  <div className="flex flex-grow items-center justify-center bg-gray-600 p-4">
+  <div className="flex flex-grow items-center justify-center bg-indigo-900 p-4">
     <div
       className={`bg-slate-700 text-white rounded-md shadow-lg p-6
         ${maxWidthLg ? "max-w-lg" : ""}
