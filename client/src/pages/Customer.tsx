@@ -8,6 +8,7 @@ import Modal from "../components/ui/Modal";
 import CustomerCreate from "./CustomerCreate";
 import CustomerEdit from "./CustomerEdit";
 import Swal from "sweetalert2";
+import CustomerReport from "./CustomerReport";
 
 const PAGE_SIZE = 5;
 
@@ -20,6 +21,9 @@ const Customer = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isEditVisible,setIsEditVisible]=useState(false)
   const user: any = useSelector((state: RootState) => state.user);
+  const [currentCustomer,setCurrentCustomer]=useState<null|string>(null)
+  const [isVisibleReport,setIsVisibleReport]=useState(false)
+  
   const { _id } = user.user;
 
   const fetchCustomers = async () => {
@@ -106,6 +110,16 @@ const Customer = () => {
       };
 
 
+const handleModalReport=(customer:any)=>{
+ setCurrentCustomer(customer)
+  setIsVisibleReport(true)
+  
+}
+
+const handleModalReportClose=()=>{
+  setIsVisibleReport(false)
+}
+
   const handleModalClose = () => {
     setIsVisible(false);
     setEditCustomer(null);
@@ -186,6 +200,11 @@ const Customer = () => {
                       onclick={() => handleDelete(customer._id)}
                       bgColor="bg-red-500"
                     />
+                     <Button
+                      text="Report"
+                      onclick={() => handleModalReport(customer)}
+                      bgColor="bg-pink-500"
+                    />
                   </td>
                 </tr>
               ))
@@ -226,6 +245,15 @@ const Customer = () => {
           }}
         />
       </Modal>
+
+      <Modal isVisible={isVisibleReport} maxWidth5Xl onClose={handleModalReportClose} title="">
+        <CustomerReport
+          customer={currentCustomer}
+          handleClose={handleModalReportClose}
+        />
+      </Modal>
+
+
       <Modal isVisible={isEditVisible} maxWidth5Xl onClose={handleModalEditClose} title="Customer">
         <CustomerEdit
           userId={_id}
