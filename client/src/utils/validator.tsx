@@ -17,6 +17,17 @@ export const validatePassword=(password:string)=>{
     return null
 }
 
+export const validatePhoneNumber = (phone: string) => {
+  const phoneRegex = /^\+?[1-9]\d{0,2}[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(phone);
+
+  if (!phoneRegex) {
+    return {
+      errMessage: "Phone number is invalid. Please enter a valid phone number.",
+      name: "Phone_number",
+    };
+  }
+  return null;
+};
 
 
 export const validateAddress=(address:string)=>{
