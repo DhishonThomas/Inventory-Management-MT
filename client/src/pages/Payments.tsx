@@ -5,7 +5,8 @@ import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
 import CustomerCreate from "./CustomerCreate";
 import userApi from "../utils/axiosInterceptors/userApiService";
-import { TiPlus,TiMinus } from "react-icons/ti";
+import { TiPlus, TiMinus } from "react-icons/ti";
+import { toast } from "react-toastify";
 
 const Payments = ({ userId, productId }: any) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,30 +19,49 @@ const Payments = ({ userId, productId }: any) => {
   });
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const [selectedCustomer, setSelectedCustomer] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState<null | string>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [payment,setPayment]=useState<null|string>(null)
+  const [payment, setPayment] = useState<null | string>(null);
 
   const handleModalOpen = () => setIsVisible(true);
   const handleModalClose = () => setIsVisible(false);
-const handleSubmit=async()=>{
+  const handleSubmit = async () => {
+    if (selectedCustomer === null) {
+      toast.error("Select a customer", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      return;
+    }
 
-  const data={
-    item_id:productId,
-    quantity:quantity,
-    customer_id:selectedCustomer,
-    payment_type:payment,
-    totalPrice:price,
-    userId:userId
-  }
+    if (payment === null) {
+      toast.error("Select a payment to Sale", {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      return;
+    }
 
-  console.log("responsedata..>>",data)
-}
+    const data = {
+      item_id: productId,
+      quantity: quantity,
+      customer_id: selectedCustomer,
+      payment_type: payment,
+      totalPrice: price,
+      userId: userId,
+    };
+
+    console.log("responsedata..>>", data);
+  };
 
   const fetchCustomers = async (query = "", page = 1) => {
-    const response = await userApi.get(`/customer/${userId}?q=${query}&page=${page}`);
+    const response = await userApi.get(
+      `/customer/${userId}?q=${query}&page=${page}`
+    );
     const { customers: customerData, totalPages: total } = response.data;
     setCustomers(customerData);
     setTotalPages(total);
@@ -55,12 +75,12 @@ const handleSubmit=async()=>{
       setProduct({
         name: inventors.name,
         description: inventors.description,
-        quantity: inventors.quantity-1,
+        quantity: inventors.quantity - 1,
         price: inventors.price,
       });
     }
-    setPrice(inventors.price)
-    setQuantity(1)
+    setPrice(inventors.price);
+    setQuantity(1);
   };
 
   const handleQuantityIncrease = () => {
@@ -89,8 +109,13 @@ const handleSubmit=async()=>{
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    fetchCustomers(e.target.value, 1);
   };
+
+  const filteredCustomers = customers.filter(
+    (item: any) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      item.mobile.toString().includes(searchQuery)
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -111,17 +136,40 @@ const handleSubmit=async()=>{
           <span className="font-bold">Price:</span> ₹{product.price}
         </p>
         <p>
-          <span className="font-bold">Available Quantity:</span> {product.quantity}
+          <span className="font-bold">Available Quantity:</span>{" "}
+          {product.quantity}
         </p>
         <div className="quantity-controls mt-4 flex items-center gap-2 ">
-          <Button onclick={handleQuantityIncrease} text={<TiPlus/>} textColor="text-pink-400 text-2xl" />
+          <Button
+            onclick={handleQuantityIncrease}
+            text={<TiPlus />}
+            textColor="text-pink-400 text-2xl"
+          />
           <p>{quantity}</p>
-          <Button onclick={handleQuantityDecrease} text={<TiMinus/>} textColor="text-pink-400 text-2xl" />
+          <Button
+            onclick={handleQuantityDecrease}
+            text={<TiMinus />}
+            textColor="text-pink-400 text-2xl"
+          />
         </div>
         <p className="mt-2">
           <span className="font-bold">Total Price:</span> ₹{price}
         </p>
-        <Button text="Sale" type="button" onclick={handleSubmit}/>
+        <Button text="Sale" type="button" onclick={handleSubmit} />
+
+        <input
+          type="radio"
+          name="Cash"
+          checked={payment === "Cash"}
+          onChange={() => setPayment("Cash")}
+        />
+
+        <input
+          type="radio"
+          name="Online"
+          checked={payment === "Online"}
+          onChange={() => setPayment("Online")}
+        />
       </div>
 
       <div className="customer-section">
@@ -133,7 +181,11 @@ const handleSubmit=async()=>{
             value={searchQuery}
             onchange={handleSearchChange}
           />
-          <Button text="Add Customer" bgColor="bg-gray-800" onclick={handleModalOpen} />
+          <Button
+            text="Add Customer"
+            bgColor="bg-gray-800"
+            onclick={handleModalOpen}
+          />
         </div>
 
         <table className="w-full border-collapse border border-gray-300">
@@ -146,7 +198,7 @@ const handleSubmit=async()=>{
             </tr>
           </thead>
           <tbody>
-            {customers.map((customer: any) => (
+            {filteredCustomers.map((customer: any) => (
               <tr key={customer._id}>
                 <td className="border border-gray-300 p-2 text-center">
                   <input
@@ -157,8 +209,12 @@ const handleSubmit=async()=>{
                   />
                 </td>
                 <td className="border border-gray-300 p-2">{customer.name}</td>
-                <td className="border border-gray-300 p-2">{customer.mobile}</td>
-                <td className="border border-gray-300 p-2">{customer.address}</td>
+                <td className="border border-gray-300 p-2">
+                  {customer.mobile}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {customer.address}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -170,13 +226,20 @@ const handleSubmit=async()=>{
               key={index}
               text={`${index + 1}`}
               onclick={() => handlePageChange(index + 1)}
-              bgColor={currentPage === index + 1 ? "bg-blue-500" : "bg-gray-400"}
+              bgColor={
+                currentPage === index + 1 ? "bg-blue-500" : "bg-gray-400"
+              }
             />
           ))}
         </div>
       </div>
 
-      <Modal isVisible={isVisible} maxWidth2Xl onClose={handleModalClose} title="Add Customer">
+      <Modal
+        isVisible={isVisible}
+        maxWidth2Xl
+        onClose={handleModalClose}
+        title="Add Customer"
+      >
         <CustomerCreate userId={userId} />
       </Modal>
     </Wrapper>
