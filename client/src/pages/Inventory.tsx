@@ -43,7 +43,9 @@ const Inventory = () => {
   };
 
   const handleProductCreateModal = () => setIsVisibleProduct(true);
-  const handleProductModalClose = () => setIsVisibleProduct(false);
+  const handleProductModalClose = () => { 
+    fetchInventory()
+    setIsVisibleProduct(false)};
 
   const handlePaymentModalOpen = (product: any) => {
     setSelectedProduct(product);
@@ -132,7 +134,7 @@ const Inventory = () => {
         onClose={handlePaymentModalClose}
         maxWidth5Xl
       >
-        <Payments userId={_id} productId={selectedProduct?._id} />
+        <Payments userId={_id} handleClose={handlePaymentModalClose} productId={selectedProduct?._id} />
       </Modal>
     </div>
   );

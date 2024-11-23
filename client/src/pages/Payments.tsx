@@ -8,7 +8,7 @@ import userApi from "../utils/axiosInterceptors/userApiService";
 import { TiPlus, TiMinus } from "react-icons/ti";
 import { toast } from "react-toastify";
 
-const Payments = ({ userId, productId }: any) => {
+const Payments = ({ userId, productId,handleClose }: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [product, setProduct] = useState({
@@ -68,14 +68,13 @@ const {status,message}=response.data
       });
     return
     }
-
-    setIsVisible(false)
     
     toast.success(message, {
       position: "top-center",
       autoClose: 5000,
       theme: "dark",
     });
+handleClose()
   };
 
   const fetchCustomers = async (query = "", page = 1) => {

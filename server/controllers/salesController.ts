@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Sales from "../models/salesModel";
-
+import Inventory from "../models/inventoryModel"
 export class salesController {
   constructor() {}
 
@@ -21,6 +21,9 @@ export class salesController {
         .status(200)
         .json({ status: false, message: "Server not created Sale" });
     }
+
+
+    await Inventory.findOneAndUpdate({_id:item_id,userId:userId},{$inc:{quantity:-quantity}})
     res
       .status(201)
       .json({ status: true, message: "Successfully created sale" });
