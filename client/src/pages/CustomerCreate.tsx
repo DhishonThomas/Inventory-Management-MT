@@ -4,7 +4,7 @@ import Wrapper from "../components/ui/Wrapper";
 import InputField from "../components/ui/InputField";
 import Button from "../components/ui/Button";
 import { toast } from "react-toastify";
-import { validateAddress, validateFullName } from "../utils/validator";
+import { validateAddress, validateFullName, validatePhoneNumber } from "../utils/validator";
 
 const CustomerCreate = ({ userId }: any) => {
   const [name, setName] = useState("");
@@ -15,7 +15,8 @@ const CustomerCreate = ({ userId }: any) => {
 
     const checkName=validateFullName(name)
     const checkAddress=validateAddress(address)
-    const checkMobile=validate4
+    const checkMobile=validatePhoneNumber(mobile+"")
+
     if(checkName!=null){
       toast.error(checkName.errMessage, {
         position: "top-center",
@@ -24,6 +25,26 @@ const CustomerCreate = ({ userId }: any) => {
       });  
       
       return
+    }
+
+    if(checkAddress !=null){
+      toast.error(checkAddress.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      }); 
+
+      return
+    }
+
+    if(checkMobile!=null){
+      toast.error(checkMobile.errMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      }); 
+      
+      return 
     }
 
     const response = await userApi.post("/customer", { name, address, mobile,userId });

@@ -26,7 +26,9 @@ const Payments = ({ userId, productId }: any) => {
   const [payment, setPayment] = useState<null | string>(null);
 
   const handleModalOpen = () => setIsVisible(true);
-  const handleModalClose = () => setIsVisible(false);
+  const handleModalClose = () => {
+    fetchCustomers()
+     setIsVisible(false)};
   const handleSubmit = async () => {
     if (selectedCustomer === null) {
       toast.error("Select a customer", {
