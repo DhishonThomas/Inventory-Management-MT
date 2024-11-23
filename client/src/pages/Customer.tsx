@@ -8,7 +8,7 @@ import Modal from "../components/ui/Modal";
 import CustomerCreate from "./CustomerCreate";
 import CustomerEdit from "./CustomerEdit";
 
-const PAGE_SIZE = 5; // Number of customers per page
+const PAGE_SIZE = 5;
 
 const Customer = () => {
   const [customers, setCustomers] = useState([]);
@@ -17,7 +17,7 @@ const Customer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editCustomer, setEditCustomer] = useState<any>(null);
   const [isVisible, setIsVisible] = useState(false);
-const [isEditVisible,setIsEditVisible]=useState(false)
+  const [isEditVisible,setIsEditVisible]=useState(false)
   const user: any = useSelector((state: RootState) => state.user);
   const { _id } = user.user;
 
@@ -44,10 +44,10 @@ const [isEditVisible,setIsEditVisible]=useState(false)
     setIsVisible(false);
     setEditCustomer(null);
   };
+
   const handleModalEditClose=()=>{
     setIsEditVisible(false)
     fetchCustomers();
-
   }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,9 +57,9 @@ const [isEditVisible,setIsEditVisible]=useState(false)
     const filteredCustomers = customers.filter(
       (customer: any) =>
         customer.name.toLowerCase().includes(query.toLowerCase()) ||
-        customer.mobile.includes(query)
+      customer.mobile.toString().includes(query)
     );
-
+console.log("filteredCustoemrs",filteredCustomers)
     setCurrentPage(1);
     setPaginatedCustomers(filteredCustomers.slice(0, PAGE_SIZE));
   };

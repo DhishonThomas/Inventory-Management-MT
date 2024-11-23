@@ -83,6 +83,7 @@ console.log("server reached",req.body)
 
     if (!userId || !inventoryId) {
       res.status(200).json({ status: false, message: "NO userIds" });
+   return
     }
 
     const result = InventoryValidator(name, description, quantity, price);
@@ -107,7 +108,9 @@ console.log("server reached",req.body)
       res
         .status(200)
         .json({ status: false, message: "Server not update the Inventory" });
-    }
+   
+   return
+      }
 
     res
       .status(201)

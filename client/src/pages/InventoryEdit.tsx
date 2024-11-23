@@ -38,6 +38,7 @@ if(checkDescription!=null){
       quantity,
       price,
       userId,
+      inventoryId:inventoryData._id
     });
 
 const {message,status}=response.data
@@ -91,8 +92,6 @@ toast.success(message, {
               setQuantity(Number(e.target.value));
 
           }        }}
-
-        
       />
       <InputField
         name="price"
