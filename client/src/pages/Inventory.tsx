@@ -231,11 +231,20 @@ const handleProductEditModalClose=()=>{
                       }
                       bgColor="bg-red-500 text-white px-3 py-1 rounded-md"
                     />
-                    <Button
+                   {product.quantity>0&& <Button
                       text="Record Payment"
                       onclick={() => handlePaymentModalOpen(product)}
                       bgColor="bg-green-500 text-white px-3 py-1 rounded-md"
-                    />
+                      disabled={product.quantity>0?false:true}
+                    />}
+                    {!(product.quantity>0)&&
+                       <Button
+                       text="No Stock"
+                       onclick={() => handlePaymentModalOpen(product)}
+                       bgColor="bg-yellow-500 text-white rounded-md"
+                       disabled={product.quantity>0?false:true}
+                     />
+                    }
                   </div>
                 </td>
               </tr>

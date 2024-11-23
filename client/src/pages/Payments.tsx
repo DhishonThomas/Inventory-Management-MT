@@ -287,7 +287,6 @@ handleClose()
         </div>
       </div>
 
-      {/* Add Customer Modal */}
       <Modal
         isVisible={isVisible}
         maxWidth2Xl
