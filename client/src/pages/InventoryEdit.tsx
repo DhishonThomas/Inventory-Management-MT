@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import InputField from "../components/ui/InputField";
 import Wrapper from "../components/ui/Wrapper";
@@ -6,26 +5,27 @@ import userApi from "../utils/axiosInterceptors/userApiService";
 import Button from "../components/ui/Button";
 import { validateDescription, validateFullName } from "../utils/validator";
 
-const InventoryEdit = ({userId,inventoryData}:any) => {
+const InventoryEdit = ({ userId, inventoryData }: any) => {
   const [name, setName] = useState(inventoryData.name);
   const [description, setDescription] = useState(inventoryData.description);
-  const [quantity, setQuantity] = useState<number|string>("");
+  const [quantity, setQuantity] = useState<number | string>("");
   const [price, setPrice] = useState(inventoryData.price);
 
+  const handleSubmit = async () => {
+    const checkName = validateFullName(name);
+    const checkDescription = validateDescription(description);
 
-  const handleSubmit=async()=>{
+    const response = await userApi.put("/inventory/", {
+      name,
+      description,
+      quantity,
+      price,
+      userId,
+    });
 
+    console.log("response>>", response.data);
+  };
 
-    const checkName=validateFullName(name)
-    const checkDescription=validateDescription(description)
-    
-
-    const response=await userApi.put("/inventory/",{name,description,quantity,price,userId})
-
-    console.log("response>>",response.data)
-
-  }
-  
   return (
     <Wrapper title="Product create">
       <InputField
@@ -54,11 +54,10 @@ const InventoryEdit = ({userId,inventoryData}:any) => {
         value={quantity}
         bgColor="bg-gray-600"
         label="Quantity"
-        onchange={(e:any) => {
-            if(e.target.value>=0){
-                setQuantity(Number(e.target.value));
-
-            }
+        onchange={(e: any) => {
+          if (e.target.value >= 0) {
+            setQuantity(Number(e.target.value));
+          }
         }}
       />
       <InputField
@@ -67,13 +66,13 @@ const InventoryEdit = ({userId,inventoryData}:any) => {
         value={price}
         bgColor="bg-gray-600"
         label="Price"
-        onchange={(e:any) => {
-            if(e.target.value>=0){
-                setPrice(Number(e.target.value));
-            }
+        onchange={(e: any) => {
+          if (e.target.value >= 0) {
+            setPrice(Number(e.target.value));
+          }
         }}
       />
-      <Button text="Add Product" onclick={handleSubmit} bgColor="bg-gray-800"/>
+      <Button text="Add Product" onclick={handleSubmit} bgColor="bg-gray-800" />
     </Wrapper>
   );
 };
