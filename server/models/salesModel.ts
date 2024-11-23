@@ -17,6 +17,7 @@ const saleSchema:Schema=new Schema({
     quantity:{type:Number},
     customer_id:{type:Schema.Types.ObjectId,ref:"Customer"},
     payment_type:{type:String},
+    totalPrice:{type:String},
     userId:{type:Schema.Types.ObjectId,ref:"User"}
 })
 

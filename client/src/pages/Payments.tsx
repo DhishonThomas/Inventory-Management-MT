@@ -22,9 +22,23 @@ const Payments = ({ userId, productId }: any) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [payment,setPayment]=useState<null|string>(null)
 
   const handleModalOpen = () => setIsVisible(true);
   const handleModalClose = () => setIsVisible(false);
+const handleSubmit=async()=>{
+
+  const data={
+    item_id:productId,
+    quantity:quantity,
+    customer_id:selectedCustomer,
+    payment_type:payment,
+    totalPrice:price,
+    userId:userId
+  }
+
+  console.log("responsedata..>>",data)
+}
 
   const fetchCustomers = async (query = "", page = 1) => {
     const response = await userApi.get(`/customer/${userId}?q=${query}&page=${page}`);
@@ -41,10 +55,12 @@ const Payments = ({ userId, productId }: any) => {
       setProduct({
         name: inventors.name,
         description: inventors.description,
-        quantity: inventors.quantity,
+        quantity: inventors.quantity-1,
         price: inventors.price,
       });
     }
+    setPrice(inventors.price)
+    setQuantity(1)
   };
 
   const handleQuantityIncrease = () => {
@@ -59,7 +75,7 @@ const Payments = ({ userId, productId }: any) => {
   };
 
   const handleQuantityDecrease = () => {
-    if (quantity > 0) {
+    if (quantity > 1) {
       setQuantity((prev) => prev - 1);
       setProduct((prev) => ({
         ...prev,
@@ -105,6 +121,7 @@ const Payments = ({ userId, productId }: any) => {
         <p className="mt-2">
           <span className="font-bold">Total Price:</span> ₹{price}
         </p>
+        <Button text="Sale" type="button" onclick={handleSubmit}/>
       </div>
 
       <div className="customer-section">
