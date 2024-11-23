@@ -63,17 +63,19 @@ if(checkDescription!=null){
           setDescription(e.target.value);
         }}
       />
-      <InputField
+   <InputField
         name="quantity"
-        type="number"
+        type="text"
         value={quantity}
         bgColor="bg-gray-600"
         label="Quantity"
-        onchange={(e: any) => {
-          if (e.target.value >= 0) {
-            setQuantity(Number(e.target.value));
-          }
-        }}
+        onchange={(e:any) => {
+          if(e.target.value>=0){
+              setQuantity(Number(e.target.value));
+
+          }        }}
+
+        
       />
       <InputField
         name="price"
@@ -81,13 +83,11 @@ if(checkDescription!=null){
         value={price}
         bgColor="bg-gray-600"
         label="Price"
-        onchange={(e: any) => {
-          if (e.target.value >= 0) {
-            setPrice(Number(e.target.value));
-          }
+        onchange={(e) => {
+          setPrice(Number(e.target.value));
         }}
       />
-      <Button text="Add Product" onclick={handleSubmit} bgColor="bg-gray-800" />
+      <Button text="Update Product" onclick={handleSubmit} bgColor="bg-gray-800" />
     </Wrapper>
   );
 };
