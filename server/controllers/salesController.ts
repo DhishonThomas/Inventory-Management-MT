@@ -30,10 +30,12 @@ export class salesController {
   }
 
   async getAllSales(req: Request, res: Response) {
+    console.log("server reached");
+    
     const { userId } = req.params;
 
-    const sales = await Sales.findById({ userId: userId });
-
+    const sales = await Sales.find({ userId: userId }).populate('customer_id').populate('item_id')
+console.log(sales)
     res
       .status(201)
       .json({ status: true, message: "Successfully get sales", sales: sales });

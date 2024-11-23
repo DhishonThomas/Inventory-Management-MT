@@ -19,7 +19,7 @@ const saleSchema:Schema=new Schema({
     payment_type:{type:String},
     totalPrice:{type:String},
     userId:{type:Schema.Types.ObjectId,ref:"User"}
-})
+},{timestamps:true})
 
 
 // saleSchema.pre("save",function(next){
