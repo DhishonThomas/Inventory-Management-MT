@@ -39,8 +39,6 @@ if(checkDescription!=null){
       price,
       userId,
     });
-
-    console.log("response>>", response.data);
   };
 
   return (

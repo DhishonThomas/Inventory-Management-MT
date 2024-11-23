@@ -8,10 +8,12 @@ import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
 import InventoryCreate from "./InventoryCreate";
 import Payments from "./Payments";
+import InventoryEdit from "./InventoryEdit";
 
 const Inventory = () => {
   const user: any = useSelector((state: RootState) => state.user);
   const [inventorsData, setInventors] = useState([]);
+  const [isVisibleEditProduct,setIsEditVisibleProduct]=useState(false)
   const [isVisibleProduct, setIsVisibleProduct] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [paymentModalVisible, setPaymentModal] = useState(false);
@@ -45,10 +47,20 @@ const Inventory = () => {
   const handleProductCreateModal = () => setIsVisibleProduct(true);
   const handleProductModalClose = () =>   setIsVisibleProduct(false)
 
+  const handleModalProductEdit=(product:any)=>{
+    setSelectedProduct(product)
+    setIsEditVisibleProduct(true)
+  }
   const handlePaymentModalOpen = (product: any) => {
     setSelectedProduct(product);
     setPaymentModal(true);
   };
+
+  
+
+const handleProductEditModalClose=()=>{
+  fetchInventory()
+  setIsEditVisibleProduct(false)}
 
   const handlePaymentModalClose = () => {
     setSelectedProduct(null);
@@ -133,20 +145,20 @@ const Inventory = () => {
                   <div className="flex items-center justify-center gap-2">
                     <Button
                       text="Edit"
-                      onclick={() => console.log("Edit product", product)}
+                      onclick={() => handleModalProductEdit(product)}
                       bgColor="bg-yellow-500 text-white px-3 py-1 rounded-md"
                     />
                     <Button
-                      text="View Customers"
+                      text="Delete"
                       onclick={() =>
                         console.log("View customers for", product)
                       }
-                      bgColor="bg-green-500 text-white px-3 py-1 rounded-md"
+                      bgColor="bg-red-500 text-white px-3 py-1 rounded-md"
                     />
                     <Button
                       text="Record Payment"
                       onclick={() => handlePaymentModalOpen(product)}
-                      bgColor="bg-red-500 text-white px-3 py-1 rounded-md"
+                      bgColor="bg-green-500 text-white px-3 py-1 rounded-md"
                     />
                   </div>
                 </td>
@@ -185,11 +197,11 @@ const Inventory = () => {
 
 
     <Modal
-      isVisible={isVisibleProduct}
+      isVisible={isVisibleEditProduct}
       title="Add Product"
-      onClose={handleProductModalClose}
+      onClose={handleProductEditModalClose}
     >
-      <InventoryCreate userId={_id} />
+      <InventoryEdit  userId={_id} inventoryData={selectedProduct} />
     </Modal>
 
     <Modal
