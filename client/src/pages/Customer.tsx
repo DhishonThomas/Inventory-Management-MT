@@ -6,6 +6,7 @@ import Button from "../components/ui/Button";
 import InputField from "../components/ui/InputField";
 import Modal from "../components/ui/Modal";
 import CustomerCreate from "./CustomerCreate";
+import CustomerEdit from "./CustomerEdit";
 
 const PAGE_SIZE = 5; // Number of customers per page
 
@@ -161,7 +162,7 @@ const [isEditVisible,setIsEditVisible]=useState(false)
         />
       </Modal>
       <Modal isVisible={isEditVisible} maxWidth5Xl onClose={handleModalEditClose} title="Customer">
-        <CustomerCreate
+        <CustomerEdit
           userId={_id}
           customer={editCustomer}
           onClose={() => {

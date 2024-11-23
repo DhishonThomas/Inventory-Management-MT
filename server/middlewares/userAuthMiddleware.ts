@@ -15,6 +15,8 @@ if(!token){
 }
 
 try {
+
+
     const decoded=verifyToken(token)
 
     req.user=decoded
@@ -27,11 +29,12 @@ if(!user){
      return
 
 }
-
+ 
 next()
 
 } catch (error) {
-    console.error("error",error)
-}
+     res.status(401).json({ message: "Invalid or expired token" });
+     return
+    }
 
 }

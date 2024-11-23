@@ -6,7 +6,7 @@ import Button from "../components/ui/Button";
 import { toast } from "react-toastify";
 import { validateAddress, validateFullName, validatePhoneNumber } from "../utils/validator";
 
-const CustomerCreate = ({ userId,customer }: any) => {
+const CustomerEdit = ({ userId,customer }: any) => {
   const [name, setName] = useState(customer.name);
   const [address, setAddress] = useState(customer.address);
   const [mobile, setMobile] = useState(customer.mobile);
@@ -65,9 +65,6 @@ toast.success(message, {
   theme: "dark",
 });
 
-setName("")
-setAddress("")
-setMobile(0)
 
   };
 
@@ -116,4 +113,4 @@ setMobile(0)
   );
 };
 
-export default CustomerCreate;
+export default CustomerEdit;
