@@ -12,7 +12,7 @@ export class salesController {
     res.status(200).json({ status: false, message: "No userIds" });
     return;
   }
-  const sales = await Sales.find({ userId: userId,item_id:productId }).populate("userId").populate("item_id")
+  const sales = await Sales.find({ userId: userId,item_id:productId }).populate("userId").populate("customer_id")
 
   console.log("sales",sales);
   

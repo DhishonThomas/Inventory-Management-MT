@@ -3,6 +3,8 @@ import userApi from "../utils/axiosInterceptors/userApiService";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toast } from "react-toastify";
+import Button from "../components/ui/Button";
+import { exportDataToExcel, exportTableToPDF, printTable } from "../utils/dataExports";
 
 const InventoryReport = ({product,handleClose}:any) => {
 
@@ -47,14 +49,19 @@ const InventoryReport = ({product,handleClose}:any) => {
     const handlePageChange = (page: number) => {
       setCurrentPage(page);
     };
-  
+    const exportToPDF=()=>exportTableToPDF("sales-table")
+    const exportToExcel=()=>exportDataToExcel(sales)
+    const printData=()=>printTable("sales-table")
     return (
       <div className="p-6 bg-gray-800">
         <h1 className="text-2xl font-bold text-white mb-4">Items Report of {product.name}</h1>
   
         {/* Sales Table */}
         <div className="bg-gray-700 p-4 rounded-lg shadow-md">
-          <table className="w-full text-left border-collapse">
+        <Button text="Export PDF" type="button" bgColor="bg-gray-600" onclick={exportToPDF}/>
+      <Button text="Export Excel" type="button" bgColor="bg-gray-600" onclick={exportToExcel}/>
+      <Button text="Print" type="button" bgColor="bg-gray-600" onclick={printData}/>
+          <table id="sales-table" className="w-full text-left border-collapse">
             <thead>
               <tr className="text-gray-400">
                 <th className="p-3 border-b border-gray-600">Sale ID</th>
