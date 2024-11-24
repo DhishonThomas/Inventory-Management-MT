@@ -1,25 +1,64 @@
 
 # Inventory Management System
 
-An **Inventory Management System** built to streamline and optimize inventory tracking, sales reporting, and product management. This system allows users to manage products, track sales, and export data efficiently, providing an all-in-one solution for business operations.
+A comprehensive **Inventory Management System** built with **TypeScript**, designed for efficient inventory, sales, and customer management. This project ensures streamlined operations, allowing businesses to manage products, track sales, and maintain customer records effectively.
 
 ## 🌟 Features
-- **Product Management**: Add, edit, delete, and search for products in your inventory.
-- **Sales Tracking**: Manage and track sales records with frontend pagination.
-- **Data Export**: Export data in multiple formats: 
-  - Print
-  - Excel
-  - PDF
-- **User Authentication**: Secure login and management.
-- **Dark Mode UI**: Clean and user-friendly interface.
+
+### **Authentication**
+- Secure user authentication using **JWT**.
+- User login with token-based authorization.
+
+### **Inventory Management**
+- Add, edit, and delete products with proper validation.
+- Notifications for actions using **React Toastify**.
+- Export inventory reports in:
+  - **PDF**
+  - **Excel**
+  - **Printable formats**
+
+### **Sales Management**
+- Sales list with pagination and detailed tracking.
+- Generate sales reports with options to export as:
+  - **PDF**
+  - **Excel**
+  - **Printable formats**
+- **Checkout System**:
+  - Add products to the checkout with **quantity validation**.
+  - Select or create a customer for the purchase.
+
+### **Customer Management**
+- Create, edit, and delete customer records.
+- Track customer activity through reports.
+- Export customer data as:
+  - **PDF**
+  - **Excel**
+  - **Printable formats**
+
+### **Reusable Components**
+- Designed with reusable UI components:
+  - **Modal**
+  - **Button**
+  - **Input Field**
+  - **Wrapper**
+- Ensures clean and modular code.
 
 ---
 
 ## 🛠️ Tech Stack
-- **Frontend**: React (Vite), TailwindCSS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **State Management**: Redux Toolkit
+
+### **Frontend**
+- React with **TypeScript**
+- **Vite** for fast development builds
+- **TailwindCSS** for styling
+- **Redux Toolkit** for state management
+- **Axios Interceptors** for secure and consistent API handling
+
+### **Backend**
+- Node.js with **Express**
+- MongoDB for database management
+- **JWT** for secure authentication
+- **Mongoose** for schema modeling
 
 ---
 
@@ -37,7 +76,7 @@ Navigate to the client directory:
 ```bash
 cd client
 ```
-Install the dependencies:
+Install dependencies:
 ```bash
 npm install
 ```
@@ -51,7 +90,7 @@ Navigate to the server directory:
 ```bash
 cd server
 ```
-Install the dependencies:
+Install dependencies:
 ```bash
 npm install
 ```
@@ -63,14 +102,15 @@ npm start
 ---
 
 ## 🧩 Environment Variables
+
 ### **Client**
-Create a `.env` file in the `client` directory with the following content:
+Create a `.env` file in the `client` directory with the following:
 ```env
 VITE_SERVER_URL=http://localhost:4000/api
 ```
 
 ### **Server**
-Create a `.env` file in the `server` directory with the following content:
+Create a `.env` file in the `server` directory with the following:
 ```env
 MONGODB_URI=mongodb://localhost:27017/Inventory-Management-MT
 JWT_SECRET=ifkdsafkjuds234oifjadskflug0r3982
@@ -79,14 +119,15 @@ JWT_SECRET=ifkdsafkjuds234oifjadskflug0r3982
 ---
 
 ## 📂 Project Structure
+
 ```
 Inventory-Management-MT/
-├── client/       # Frontend React application
+├── client/       # Frontend application
 │   ├── src/      # React components, hooks, utils
 │   ├── .env      # Client environment variables
 │   ├── package.json
 │   └── ...
-├── server/       # Backend Express application
+├── server/       # Backend application
 │   ├── routes/   # API routes
 │   ├── models/   # MongoDB models
 │   ├── .env      # Server environment variables
@@ -104,16 +145,17 @@ Inventory-Management-MT/
 
 ---
 
-## 📜 Additional Notes
-This system is designed to work locally for development. Ensure proper hosting and configuration when deploying to production.
-
-- **Frontend Port**: `4173`
-- **Backend Port**: `4000`
+## 🎨 Key Highlights
+- **TypeScript Integration**: Strongly typed code for better maintainability.
+- **Toast Notifications**: For instant feedback on actions.
+- **Reusable Components**: Modular approach with common UI elements.
+- **Data Exports**: Unified PDF, Excel, and Print functionalities across **products**, **sales**, and **customers**.
+- **Checkout System**: Handles customer creation and product quantity validation during sales.
 
 ---
 
 ## 🤝 Contributions
-Contributions are welcome! Feel free to fork the repository and submit pull requests.
+Contributions are welcome! Feel free to fork the repository, make changes, and submit a pull request.
 
 ---
 
