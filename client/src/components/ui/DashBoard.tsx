@@ -8,7 +8,7 @@ interface DashBoardLayoutProps {
   bgColor?: string;
 }
 
-const DashBoard: React.FC<DashBoardLayoutProps> = ({ menuItems, children, bgColor }) => {
+const DashBoard: React.FC<DashBoardLayoutProps> = ({ menuItems, children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 const [scrollY,setScrollY]=useState(false)
 

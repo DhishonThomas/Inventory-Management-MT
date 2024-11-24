@@ -66,7 +66,7 @@ const Customer = () => {
 
              if(!status){
               Swal.fire({
-                title: "Deletion Unsuccessful!",
+                title: message,
                 text: "There was a problem deleting the customer.",
                 icon: "error",
                 background: "#1a1a1a",

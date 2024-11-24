@@ -89,7 +89,7 @@ handleClose()
     const response = await userApi.get(
       `/customer/${userId}?q=${query}&page=${page}`
     );
-    const { customers: customerData, totalPages: total } = response.data;
+    const { customers: customerData } = response.data;
     setCustomers(customerData);
   };
 

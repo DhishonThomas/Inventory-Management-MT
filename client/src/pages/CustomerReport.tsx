@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import userApi from "../utils/axiosInterceptors/userApiService";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Button from "../components/ui/Button";
 import { exportDataToExcel, exportTableToPDF, printTable } from "../utils/dataExports";
 
-const CustomerReport = ({customer,handleClose}:any) => {
+const CustomerReport = ({customer}:any) => {
   
       const user: any = useSelector((state: RootState) => state.user);
       const [sales, setSales] = useState<any[]>([]);

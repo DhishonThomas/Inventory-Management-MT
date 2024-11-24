@@ -53,7 +53,7 @@ const Inventory = () => {
 
           if (!status) {
             Swal.fire({
-              title: "Deletion Unsuccessful!",
+              title: message,
               text: "There was a problem deleting the product.",
               icon: "error",
               background: "#1a1a1a",

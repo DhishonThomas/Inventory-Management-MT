@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import InputField from "../components/ui/InputField";
 import { useState } from "react";
 import Button from "../components/ui/Button";
@@ -22,7 +22,6 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
-const navigate = useNavigate()
   const user = useSelector((state: RootState) => state.user);
 const dispatch=useDispatch()
   if (user.isAuthenticated) {

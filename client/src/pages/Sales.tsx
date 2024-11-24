@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import userApi from "../utils/axiosInterceptors/userApiService";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { toast } from "react-toastify";
-import jsPDF from "jspdf";
 import Button from "../components/ui/Button";
-import * as XLSX from "xlsx";
 import { exportDataToExcel, exportTableToPDF, printTable } from "../utils/dataExports";
 
 
