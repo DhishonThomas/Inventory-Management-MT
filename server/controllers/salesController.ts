@@ -12,7 +12,7 @@ export class salesController {
     res.status(200).json({ status: false, message: "No userIds" });
     return;
   }
-  const sales = await Sales.find({ userId: userId,item_id:productId });
+  const sales = await Sales.find({ userId: userId,item_id:productId }).populate("userId").populate("item_id")
 
   console.log("sales",sales);
   
@@ -33,7 +33,7 @@ export class salesController {
     res.status(200).json({ status: false, message: "No userIds" });
     return;
   }
-  const sales = await Sales.find({ userId: userId,customer_id:customerId });
+  const sales = await Sales.find({ userId: userId,customer_id:customerId }).populate("userId").populate("customer_id")
 
   console.log("sales",sales);
   
