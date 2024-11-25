@@ -1,8 +1,75 @@
 import { Request, Response } from "express";
 import Sales from "../models/salesModel";
 import Inventory from "../models/inventoryModel";
+import mongoose from "mongoose";
 export class salesController {
   constructor() {}
+
+async getMonthlyRevenueGraph(req:Request,res:Response){
+const {userId}=req.params
+  if (!userId) {
+    res.status(404).json({ status: false, message: "No userIds" });
+    return;
+  }
+
+  const result=await Sales.aggregate([
+    {
+      $match:{
+        userId:new mongoose.Types.ObjectId(userId)
+      },
+    },
+    {
+      $group:{
+        _id:{
+          year:{$year:"$createdAt"},
+          month:{$month:"$createdAt"}
+        },
+        totalRevenue:{
+          $sum:{$toDouble:"$totalPrice"}
+        }
+      }
+    },
+    {
+      $addFields:{
+        monthName:{
+          $arrayElemAt:[
+            [
+              "",
+              "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+            ],
+            "$_id.month",
+          ]
+        }
+      }
+    },
+    {
+      $project: {
+        year: "$_id.year",
+        month: "$_id.month",
+        monthName: 1,
+        totalRevenue: 1,
+        _id: 0, 
+      },
+    },
+  ])
+
+  res.status(201).json({
+    status: true,
+    message: "Successfully get monthly revenue",
+    dashboardData: result,
+  });
+}
 
   async getInventoryReport(req: Request, res: Response) {
     const { userId, productId } = req.params;

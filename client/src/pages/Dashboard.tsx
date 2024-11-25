@@ -1,15 +1,57 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import userApi from "../utils/axiosInterceptors/userApiService";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
-const data = [
-  { name: "Jan", sales: 4000 },
-  { name: "Feb", sales: 3000 },
-  { name: "Mar", sales: 5000 },
-  { name: "Apr", sales: 7000 },
-  { name: "May", sales: 6000 },
-  { name: "Jun", sales: 8000 },
-];
 
 const Dashboard = () => {
+  const [dashboard_data,setDashboard]=useState([])
+const [data,setData]=useState([
+  { name: "Jan", sales: 0 },
+  { name: "Feb", sales: 0 },
+  { name: "Mar", sales: 0 },
+  { name: "Apr", sales: 0 },
+  { name: "May", sales: 0 },
+  { name: "Jun", sales: 0 },
+  { name: "Jul", sales: 0 },
+  { name: "Aug", sales: 0 },
+  { name: "Sep", sales: 0 },
+  { name: "Oct", sales: 0 },
+  { name: "Nov", sales: 0 },
+  { name: "Dec", sales: 0 },
+])
+
+const user:any=useSelector((state:RootState)=>state.user)
+const {_id}=user.user
+  const fetchData=async()=>{
+    const response=await userApi.get(`/sales/dashboard/${_id}`)
+
+    const {message,dashboardData,status}=response.data
+
+    if(!status){
+      console.log(message);
+      return
+    }
+    console.log(dashboardData);
+    
+    setData((prev) =>
+      prev.map((month) => {
+        const found = dashboardData.find((item: any) => item.monthName === month.name);
+        return found ? { ...month, sales: found.totalRevenue } : month;
+      })
+    );
+  }
+
+  useEffect(()=>{
+    fetchData()
+        },[])
+
+
+
+        
+
+
   return (
     <div className="p-6 bg-gray-800 min-h-screen">
       <div className="mb-8">
