@@ -9,7 +9,7 @@ export class customerController {
     const { userId } = req.params;
 
     if (!userId) {
-      res.status(200).json({ status: false, message: "No userId find" });
+      res.status(401).json({ status: false, message: "No userId find" });
     }
 
     const customers = await Customer.find({ userId: userId });
@@ -17,12 +17,12 @@ export class customerController {
 
     if (!customers) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "No customers with this user" });
       return;
     }
 
-    res.status(201).json({
+    res.status(200).json({
       status: true,
       message: "Successfully get customers",
       customers: customers,
@@ -31,15 +31,14 @@ export class customerController {
 
   async createCustomer(req: Request, res: Response) {
     const { name, address, mobile, userId } = req.body;
-console.log("create customer reached",req.body);
 
     const result = customerValidator(name, address, mobile);
 
     if (!result.status) {
-      res.status(200).json({ status: result.status, message: result.message });
+      res.status(404).json({ status: result.status, message: result.message });
       return;
     }
-    
+
 const alreadyCustomer=await Customer.findOne({mobile:mobile})
 
 if(alreadyCustomer){
@@ -56,7 +55,7 @@ if(alreadyCustomer){
 
     if (!newCustomer) {
       res
-        .status(200)
+        .status(400)
         .json({ status: false, message: "Customer is not saved by server" });
       return;
     }
@@ -70,13 +69,13 @@ if(alreadyCustomer){
     const {name, address, customerId, userId, mobile } = req.body;
 
     if (!userId || !customerId) {
-      res.status(200).json({ status: false, message: "No userId" });
+      res.status(404).json({ status: false, message: "No userId" });
     }
 
     const result = customerValidator(name, address, mobile);
 
     if (!result.status) {
-      res.status(200).json({ status: result.status, message: result.message });
+      res.status(400).json({ status: result.status, message: result.message });
       return;
     }
 
@@ -88,7 +87,7 @@ if(alreadyCustomer){
 
     if (!updateCustomer) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Server did not update customer" });
       return;
     }
@@ -102,7 +101,7 @@ if(alreadyCustomer){
     const { userId, customerId } = req.params;
 
     if (!userId || !customerId) {
-      res.status(200).json({ status: false, message: "No user with this id." });
+      res.status(400).json({ status: false, message: "No user with this id." });
     }
 
     await Customer.findByIdAndDelete({ _id: customerId, userId: userId });
