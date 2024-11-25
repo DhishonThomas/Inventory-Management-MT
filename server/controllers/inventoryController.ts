@@ -12,7 +12,7 @@ async getSingleProduct(req:Request,res:Response){
   const {userId,productId}=req.params
 
 if(!userId||!productId){
-  res.status(200).json({ status: false, message: "No userIds" });
+  res.status(404).json({ status: false, message: "No userIds" });
   return;
 }
 const inventors = await Inventory.findOne({ userId: userId,_id:productId });
@@ -33,7 +33,7 @@ res
     const { userId } = req.params;
 
     if (!userId) {
-      res.status(200).json({ status: false, message: "No userIds" });
+      res.status(404).json({ status: false, message: "No userIds" });
       return;
     }
 
@@ -52,13 +52,13 @@ res
     const { name, description, quantity, price, userId } = req.body;
 console.log("server reached",req.body)
     if (!userId) {
-      res.status(200).json({ status: false, message: "NO userIds" });
+      res.status(404).json({ status: false, message: "NO userIds" });
     }
 
     const result = InventoryValidator(name, description, quantity, price);
 
     if (!result.status) {
-      res.status(200).json({ status: result.status, message: result.message });
+      res.status(404).json({ status: result.status, message: result.message });
       return;
     }
     
@@ -72,7 +72,7 @@ console.log("server reached",req.body)
 
     if (!createInventory) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Server not created Inventory" });
     }
 
@@ -86,14 +86,14 @@ console.log("server reached",req.body)
       req.body;
 
     if (!userId || !inventoryId) {
-      res.status(200).json({ status: false, message: "NO userIds" });
+      res.status(404).json({ status: false, message: "NO userIds" });
    return
     }
 
     const result = InventoryValidator(name, description, quantity, price);
 
     if (!result.status) {
-      res.status(200).json({ status: result.status, message: result.message });
+      res.status(404).json({ status: result.status, message: result.message });
       return;
     }
 
@@ -110,7 +110,7 @@ console.log("server reached",req.body)
 
     if (!updateInventory) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Server not update the Inventory" });
    
    return
@@ -125,7 +125,7 @@ console.log("server reached",req.body)
     const { userId, inventoryId } = req.params;
 
     if (!userId || !inventoryId) {
-      res.status(200).json({ status: false, message: "No userIds" });
+      res.status(404).json({ status: false, message: "No userIds" });
       return;
     }
 
