@@ -39,7 +39,14 @@ console.log("create customer reached",req.body);
       res.status(200).json({ status: result.status, message: result.message });
       return;
     }
+    
+const alreadyCustomer=await Customer.findOne({mobile:mobile})
 
+if(alreadyCustomer){
+  res.status(409).json({ status: false, message: "Already a customer" });
+
+  return
+}
     const newCustomer = await Customer.create({
       name: name,
       userId: userId,
