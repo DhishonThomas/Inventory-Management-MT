@@ -79,7 +79,6 @@ const Inventory = () => {
               popup: "animate__animated animate__fadeOutUp",
             },
           });
-
           fetchInventory();
         } catch (error) {
           Swal.fire({
