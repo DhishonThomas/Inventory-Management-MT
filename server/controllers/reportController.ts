@@ -6,7 +6,7 @@ export class reportController{
  async sales(req:Request,res:Response){
 const {userId}=req.params
 if(!userId){
-    res.status(200).json({status:false,message:"No userIds"})
+    res.status(404).json({status:false,message:"No userIds"})
 }
 
 
