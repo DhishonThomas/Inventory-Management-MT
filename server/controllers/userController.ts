@@ -13,21 +13,21 @@ export class userController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(200).json({ status: false, message: "Invalid credentials" });
+      res.status(404).json({ status: false, message: "Invalid credentials" });
       return;
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      res.status(200).json({ status: false, message: "Invalid credentials" });
+      res.status(404).json({ status: false, message: "Invalid credentials" });
       return;
     }
 
     const isPasswordValid = await user?.comparePassword(password);
 
     if (!isPasswordValid) {
-      res.status(200).json({ status: false, message: "Invalid credentials" });
+      res.status(404).json({ status: false, message: "Invalid credentials" });
       return;
     }
     const payload = { userId: user?._id };
@@ -53,7 +53,7 @@ console.log("token gendered",token)
 
     if (!name || !email || !password) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Please fill all the fields" });
       return;
     }
@@ -61,12 +61,12 @@ console.log("token gendered",token)
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Email already existing" });
     }
 
     if (name.length <= 3) {
-      res.status(200).json({
+      res.status(404).json({
         status: false,
         message: "Name must be more than three letters",
       });
@@ -83,7 +83,7 @@ return
     console.log(db);
     if (!db) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Server not created user.error" });
       return;
     }
