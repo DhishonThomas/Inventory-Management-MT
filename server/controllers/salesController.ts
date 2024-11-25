@@ -8,7 +8,7 @@ export class salesController {
     const { userId, productId } = req.params;
 
     if (!userId || !productId) {
-      res.status(200).json({ status: false, message: "No userIds" });
+      res.status(404).json({ status: false, message: "No userIds" });
       return;
     }
     const sales = await Sales.find({ userId: userId, item_id: productId })
@@ -27,7 +27,7 @@ export class salesController {
     const { userId, customerId } = req.params;
 
     if (!userId || !customerId) {
-      res.status(200).json({ status: false, message: "No userIds" });
+      res.status(404).json({ status: false, message: "No userIds" });
       return;
     }
     const sales = await Sales.find({ userId: userId, customer_id: customerId })
@@ -57,7 +57,7 @@ export class salesController {
 
     if (!createSale) {
       res
-        .status(200)
+        .status(404)
         .json({ status: false, message: "Server not created Sale" });
     }
 
