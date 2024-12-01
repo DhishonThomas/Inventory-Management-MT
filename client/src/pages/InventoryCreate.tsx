@@ -10,7 +10,7 @@ const InventoryCreate = ({userId}:any) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState<number|string>("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState<number|string>("");
 
 
 
@@ -35,6 +35,23 @@ if(checkDescription!=null){
       });
     return 
 }
+if(Number(quantity) <= 0){
+  toast.error("Quantity must be ablest one", {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+    });
+  return 
+}
+if(Number(price) <= 0){
+  toast.error("Price must be more than zero", {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+    });
+  return 
+}
+
 const response=await userApi.post("/inventory/",{name,description,quantity,price,userId})
 
 
@@ -100,9 +117,11 @@ toast.success(message, {
         value={price}
         bgColor="bg-gray-600"
         label="Price"
-        onchange={(e) => {
-          setPrice(Number(e.target.value));
-        }}
+        onchange={(e:any) => {
+          if(e.target.value>=0){
+              setPrice(Number(e.target.value));
+
+          }        }}
       />
       <Button text="Add Product" onclick={handleSubmit} bgColor="bg-gray-800"/>
     </Wrapper>
