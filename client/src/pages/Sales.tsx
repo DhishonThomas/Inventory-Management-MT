@@ -162,10 +162,10 @@ const Sales = () => {
                   <td className="p-3 border-b border-gray-600">{sale._id}</td>
                   <td className="p-3 border-b border-gray-600">{sale.item_id.name}</td>
                   <td className="p-3 border-b border-gray-600">
-                    {sale.customer_id.name}
+                    {sale.customer.name}
                   </td>
                   <td className="p-3 border-b border-gray-600">
-                    {sale.customer_id.mobile} 
+                    {sale.customer.mobile} 
                   </td>
                   <td className="p-3 border-b border-gray-600">{sale.quantity}</td>
                   <td className="p-3 border-b border-gray-600">{sale.payment_type}</td>
@@ -173,7 +173,7 @@ const Sales = () => {
                     ₹{sale.totalPrice}
                   </td>
                   <td className="p-3 border-b border-gray-600">
-                    {new Date(sale.date).toLocaleDateString()}
+                    {new Date(sale.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
               ))

@@ -80,7 +80,6 @@ const {userId}=req.params
     }
     const sales = await Sales.find({ userId: userId, item_id: productId })
       .populate("userId")
-      .populate("customer_id");
 
     console.log("sales", sales);
 
@@ -97,9 +96,8 @@ const {userId}=req.params
       res.status(404).json({ status: false, message: "No userIds" });
       return;
     }
-    const sales = await Sales.find({ userId: userId, customer_id: customerId })
+    const sales = await Sales.find({ userId: userId, 'customer._id': customerId })
       .populate("userId")
-      .populate("customer_id");
 
     console.log("sales", sales);
 
@@ -111,13 +109,13 @@ const {userId}=req.params
   }
 
   async createSale(req: Request, res: Response) {
-    const { item_id, quantity, customer_id, payment_type, userId, totalPrice } =
+    const { item_id, quantity, customer, payment_type, userId, totalPrice } =
       req.body;
     const createSale = await Sales.create({
       totalPrice: totalPrice,
       item_id: item_id,
       quantity: quantity,
-      customer_id: customer_id,
+      customer: customer,
       payment_type: payment_type,
       userId: userId,
     });
@@ -143,7 +141,6 @@ const {userId}=req.params
     const { userId } = req.params;
 
     const sales = await Sales.find({ userId: userId })
-      .populate("customer_id")
       .populate("item_id");
     console.log(sales);
     res

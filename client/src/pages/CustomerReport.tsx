@@ -78,10 +78,10 @@ const CustomerReport = ({customer}:any) => {
                     <tr key={sale._id} className="text-white hover:bg-gray-600">
                       <td className="p-3 border-b border-gray-600">{sale._id}</td>
                       <td className="p-3 border-b border-gray-600">
-                        {sale.customer_id.name}
+                        {sale.customer.name}
                       </td>
                       <td className="p-3 border-b border-gray-600">
-                        {sale.customer_id.mobile} 
+                        {sale.customer.mobile} 
                       </td>
                       <td className="p-3 border-b border-gray-600">{sale.quantity}</td>
                       <td className="p-3 border-b border-gray-600">{sale.payment_type}</td>

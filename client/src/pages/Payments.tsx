@@ -19,7 +19,7 @@ const Payments = ({ userId, productId,handleClose }: any) => {
   });
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const [selectedCustomer, setSelectedCustomer] = useState<null | string>(null);
+  const [selectedCustomer, setSelectedCustomer] = useState<any>({_id:"",name:"",mobile:0});
   const [searchQuery, setSearchQuery] = useState("");
   const [payment, setPayment] = useState<null | string>(null);
 
@@ -59,7 +59,7 @@ const PAGE_SIZE=5
     const data = {
       item_id: productId,
       quantity: quantity,
-      customer_id: selectedCustomer,
+      customer:selectedCustomer,
       payment_type: payment,
       totalPrice: price,
       userId: userId,
@@ -131,8 +131,16 @@ handleClose()
     }
   };
 
-  const handleCustomerSelect = (id: string) => setSelectedCustomer(id);
-
+  const handleCustomerSelect = (id: string,name:string,mobile:number) => {
+    alert("dd")
+    console.log(id,name,mobile);
+    
+    setSelectedCustomer({
+    _id:id,
+    name:name,
+    mobile:mobile
+  });
+}
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
@@ -253,8 +261,8 @@ handleClose()
                     <input
                       type="radio"
                       name="selectedCustomer"
-                      checked={selectedCustomer === customer._id}
-                      onChange={() => handleCustomerSelect(customer._id)}
+                      checked={selectedCustomer?._id === customer._id}
+                      onChange={() => handleCustomerSelect(customer._id,customer.name,customer.mobile)}
                     />
                   </td>
                   <td className="border border-gray-800 p-2">{customer.name}</td>
