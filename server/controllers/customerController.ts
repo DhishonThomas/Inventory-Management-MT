@@ -33,9 +33,10 @@ export class customerController {
     const { name, address, mobile, userId } = req.body;
 
     const result = customerValidator(name, address, mobile);
+console.log(result,"customer..result");
 
     if (!result.status) {
-      res.status(404).json({ status: result.status, message: result.message });
+      res.status(400).json({ status: result.status, message: result.message });
       return;
     }
 

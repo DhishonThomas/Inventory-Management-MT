@@ -90,7 +90,7 @@ const InventoryReport = ({product}:any) => {
                       ₹{sale.totalPrice}
                     </td>
                     <td className="p-3 border-b border-gray-600">
-                      {new Date(sale.date).toLocaleDateString()}
+                      {new Date(sale.createdAt).toDateString()}
                     </td>
                   </tr>
                 ))

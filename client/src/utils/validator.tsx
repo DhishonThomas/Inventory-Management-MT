@@ -18,7 +18,7 @@ export const validatePassword=(password:string)=>{
 }
 
 export const validatePhoneNumber = (phone: string) => {
-  const phoneRegex = /^\+?[1-9]\d{0,2}[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(phone);
+  const phoneRegex =/^\d{10}$/.test(phone);
 
   if (!phoneRegex) {
     return {

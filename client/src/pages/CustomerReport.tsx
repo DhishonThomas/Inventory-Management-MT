@@ -89,7 +89,7 @@ const CustomerReport = ({customer}:any) => {
                         ₹{sale.totalPrice}
                       </td>
                       <td className="p-3 border-b border-gray-600">
-                        {new Date(sale.date).toLocaleDateString()}
+                        {new Date(sale.createdAt).toLocaleDateString()}
                       </td>
                     </tr>
                   ))

@@ -16,7 +16,6 @@ const CustomerCreate = ({ userId }: any) => {
     const checkName=validateFullName(name)
     const checkAddress=validateAddress(address)
     const checkMobile=validatePhoneNumber(mobile+"")
-
     if(checkName!=null){
       toast.error(checkName.errMessage, {
         position: "top-center",
@@ -47,27 +46,39 @@ const CustomerCreate = ({ userId }: any) => {
       return 
     }
 
-    const response = await userApi.post("/customer", { name, address, mobile,userId });
-const {status,message}=response.data
 
-if(!status){
-  toast.error(message, {
+try {
+  
+
+  const response = await userApi.post("/customer", { name, address, mobile,userId });
+  const {status,message}=response.data
+  console.log(response.data)
+  if(!status){
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 5000,
+      theme: "dark",
+    });  
+    return
+  }
+  
+  toast.success(message, {
+    position: "top-center",
+    autoClose: 5000,
+    theme: "dark",
+  });
+  
+  setName("")
+  setAddress("")
+  setMobile(0)
+  
+} catch (error:any) {
+  toast.error(error.data.message, {
     position: "top-center",
     autoClose: 5000,
     theme: "dark",
   });  
-  return
 }
-
-toast.success(message, {
-  position: "top-center",
-  autoClose: 5000,
-  theme: "dark",
-});
-
-setName("")
-setAddress("")
-setMobile(0)
 
   };
 
