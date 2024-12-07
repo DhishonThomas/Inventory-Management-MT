@@ -9,7 +9,7 @@ COPY client/package*.json ./
 RUN npm install
 
 # Copy application files
-COPY . .
+COPY client/ ./
 # Expose port (same as your frontend app listens on)
 
 RUN npm run build
