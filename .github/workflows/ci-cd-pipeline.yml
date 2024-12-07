@@ -31,13 +31,13 @@ jobs:
     # Build and push frontend Docker image to Docker Hub
     - name: Build and push frontend Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest -f Dockerfile ..
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest -f InventoryManagement/client/Dockerfile .
         docker push ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest
 
     # Build and push backend Docker image to Docker Hub
     - name: Build and push backend Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest -f Dockerfile ..
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest -f InventoryManagement/server/Dockerfile .
         docker push ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest
 
     # SSH into server and deploy
