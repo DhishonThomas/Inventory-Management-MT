@@ -1,24 +1,20 @@
-version: "3.8"
-
 services:
-  frontend:
-    build:
-      context: ./client
+  client:
+    image: dhishon/inventory-client:latest
     ports:
       - "4173:4173"
     volumes:
-      - ./client/.env:/usr/src/app/.env:ro  # Corrected path
+      - ./client/.env:/usr/src/app/.env:ro
     environment:
       - NODE_ENV=production
     restart: always
 
-  backend:
-    build:
-      context: ./server
+  server:
+    image: dhishon/inventory-server:latest
     ports:
       - "4000:4000"
     volumes:
-      - ./server/.env:/usr/src/app/.env:ro  # Corrected path
+      - ./server/.env:/usr/src/app/.env:ro
     environment:
       - NODE_ENV=production
     restart: always
