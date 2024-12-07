@@ -13,8 +13,7 @@ COPY client/ ./
 # Expose port (same as your frontend app listens on)
 
 RUN npm run build
-
-
+ 
 EXPOSE 4173
 
 # Start the app
