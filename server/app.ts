@@ -8,7 +8,11 @@ const app=express()
 dotenv.config()
 db()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:4173', 'https://inventory.curecart.store'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
+}));
 app.use("/api",router)
 
 app.listen(4000,()=>{

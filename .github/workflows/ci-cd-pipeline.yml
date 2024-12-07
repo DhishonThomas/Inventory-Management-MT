@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  # Optional: Run on tag pushes if you use versioning
+#   tags:
+#     - "v*"
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout code
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Set up Docker Buildx (optional but recommended for multi-platform builds)
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    # Log in to Docker Hub
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Build and push frontend Docker image to Docker Hub
+    - name: Build and push frontend Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest -f frontend/Dockerfile .
+        docker push ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest
+
+    # Build and push backend Docker image to Docker Hub
+    - name: Build and push backend Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest -f backend/Dockerfile .
+        docker push ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest
+
+    # SSH into server and deploy
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: 10159
+        script: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest
+          docker pull ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest
+          docker-compose -f /app/InventoryManagement/docker-compose.yml down
+          docker-compose -f /app/InventoryManagement/docker-compose.yml up -d

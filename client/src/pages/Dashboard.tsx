@@ -7,7 +7,9 @@ import { RootState } from "../redux/store";
 
 const Dashboard = () => {
   const [dashboard_data,setDashboard]=useState([])
-const [data,setData]=useState([
+
+console.log(dashboard_data,setDashboard)
+  const [data,setData]=useState([
   { name: "Jan", sales: 0 },
   { name: "Feb", sales: 0 },
   { name: "Mar", sales: 0 },
