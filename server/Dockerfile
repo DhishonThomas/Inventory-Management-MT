@@ -6,10 +6,13 @@ WORKDIR /app
 
 # Install dependencies
 COPY server/package*.json ./
+
+COPY . .
+
 RUN npm install
 
 # Copy application files
-COPY . .
+
 # Expose port (same as your frontend app listens on)
 
 EXPOSE 4000
