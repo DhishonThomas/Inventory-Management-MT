@@ -31,7 +31,7 @@ jobs:
     # Build and push frontend Docker image to Docker Hub
     - name: Build and push frontend Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest -f clientfrontend/Dockerfile .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest -f client/Dockerfile .
         docker push ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest
 
     # Build and push backend Docker image to Docker Hub
