@@ -7,7 +7,7 @@ services:
     ports:
       - "4173:4173"
     volumes:
-      - ./app/InventoryManagement/client/.env:/usr/src/app/.env:ro
+      - ./client/.env:/usr/src/app/.env:ro  # Corrected path
     environment:
       - NODE_ENV=production
     restart: always
@@ -18,7 +18,7 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - ./app/InventoryManagement/server/.env:/usr/src/app/.env:ro
+      - ./server/.env:/usr/src/app/.env:ro  # Corrected path
     environment:
       - NODE_ENV=production
     restart: always
