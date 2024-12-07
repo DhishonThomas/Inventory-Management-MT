@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /app
 
 # Install dependencies
-COPY client/package*.json ./
+COPY server/package*.json ./
 RUN npm install
 
 # Copy application files
