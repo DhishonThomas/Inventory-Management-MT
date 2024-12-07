@@ -53,3 +53,4 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/inventory-server:latest
           docker-compose -f /app/InventoryManagement/docker-compose.yml down
           docker-compose -f /app/InventoryManagement/docker-compose.yml up -d
+ 
