@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   client:
     image: dhishon/inventory-client:latest
@@ -5,8 +6,6 @@ services:
       - "4173:4173"
     env_file:
       - /home/dhishon/app/InventoryManagement/client/.env
-    environment:
-      - VITE_SERVER_URL=${VITE_SERVER_URL}
     restart: always
     volumes:
       - /home/dhishon/app/InventoryManagement/client/.env:/usr/src/app/.env:ro

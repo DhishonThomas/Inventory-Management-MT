@@ -17,6 +17,7 @@ try {
 }
 
 
+console.log("Full process.env:", process.env);
 
 const app=express()
 console.log('MongoDB URI:', process.env.MONGODB_URI);
