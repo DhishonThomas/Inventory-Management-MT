@@ -73,12 +73,15 @@ console.log("token gendered",token)
 return
     }
     const hashed_password = await hashedPassword(password);
+    let db=undefined
+if(!existingEmail){
+   db = await User.create({
+    name: name,
+    email: email,
+    password: hashed_password,
+  });
 
-    const db = await User.create({
-      name: name,
-      email: email,
-      password: hashed_password,
-    });
+}
 
     console.log(db);
     if (!db) {
