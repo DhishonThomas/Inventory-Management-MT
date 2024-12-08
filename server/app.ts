@@ -1,26 +1,12 @@
-import dotenv from 'dotenv'
-dotenv.config()
-
 import express from 'express'
 import router from './routes/routes'
 import db from './config/db'
 import cors from 'cors'
+import dotenv from 'dotenv'
 
-import fs from 'fs';
-
-// Check if the .env file is being loaded correctly
-try {
-    const data = fs.readFileSync('/usr/src/app/.env', 'utf8');
-    console.log("Contents of .env file:", data);
-} catch (err) {
-    console.log("Error reading .env file:", err);
-}
-
-
-console.log("Full process.env:", process.env);
+dotenv.config()
 
 const app=express()
-console.log('MongoDB URI:', process.env.MONGODB_URI);
 db()
 app.use(express.json())
 app.use(cors({
