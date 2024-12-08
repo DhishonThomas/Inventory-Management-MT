@@ -6,6 +6,18 @@ import router from './routes/routes'
 import db from './config/db'
 import cors from 'cors'
 
+import fs from 'fs';
+
+// Check if the .env file is being loaded correctly
+try {
+    const data = fs.readFileSync('/usr/src/app/.env', 'utf8');
+    console.log("Contents of .env file:", data);
+} catch (err) {
+    console.log("Error reading .env file:", err);
+}
+
+
+
 const app=express()
 console.log('MongoDB URI:', process.env.MONGODB_URI);
 db()
