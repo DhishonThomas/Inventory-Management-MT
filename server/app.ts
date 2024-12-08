@@ -7,6 +7,7 @@ import db from './config/db'
 import cors from 'cors'
 
 const app=express()
+console.log('MongoDB URI:', process.env.MONGODB_URI);
 db()
 app.use(express.json())
 app.use(cors({
