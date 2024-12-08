@@ -31,6 +31,7 @@ jobs:
     # Build and push frontend Docker image to Docker Hub
     - name: Build and push frontend Docker image
       run: |
+        echo "VITE_SERVER_URL=${{ secrets.VITE_SERVER_URL }}" > ./client/.env
         docker build -t ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest -f ./client/Dockerfile .
         docker push ${{ secrets.DOCKER_USERNAME }}/inventory-client:latest
 
