@@ -6,7 +6,7 @@ services:
       - "4173:4173"
     env_file:
       - /home/dhishon/app/InventoryManagement/client/.env
-    restart: always
+    restart: unless-stopped
     volumes:
       - /home/dhishon/app/InventoryManagement/client/.env:/app/.env:ro
 
@@ -16,6 +16,6 @@ services:
       - "4000:4000"
     env_file:
       - /home/dhishon/app/InventoryManagement/server/.env
-    restart: always
+    restart: unless-stopped
     volumes:
       - /home/dhishon/app/InventoryManagement/server/.env:/app/.env:ro
