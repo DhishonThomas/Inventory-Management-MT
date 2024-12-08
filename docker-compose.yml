@@ -3,18 +3,22 @@ services:
     image: dhishon/inventory-client:latest
     ports:
       - "4173:4173"
-    volumes:
-      - /home/dhishon/app/InventoryManagement/client/.env:/usr/src/app/.env:ro
+    env_file:
+      - /home/dhishon/app/InventoryManagement/client/.env
     environment:
       - NODE_ENV=production
     restart: always
+    volumes:
+      - /home/dhishon/app/InventoryManagement/client/.env:/usr/src/app/.env:ro
 
   server:
     image: dhishon/inventory-server:latest
     ports:
       - "4000:4000"
-    volumes:
-      - /home/dhishon/app/InventoryManagement/server/.env:/usr/src/app/.env:ro
+    env_file:
+      - /home/dhishon/app/InventoryManagement/server/.env
     environment:
       - NODE_ENV=production
     restart: always
+    volumes:
+      - /home/dhishon/app/InventoryManagement/server/.env:/usr/src/app/.env:ro
