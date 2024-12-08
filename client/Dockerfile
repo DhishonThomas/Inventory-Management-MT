@@ -2,7 +2,7 @@
 FROM node:16
 
 # Set working directory in container
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Install dependencies
 COPY client/package*.json ./
