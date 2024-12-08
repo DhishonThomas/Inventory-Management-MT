@@ -17,7 +17,11 @@ import axios from "axios";
 import { loginSuccess } from "../redux/slices/userSlice";
 import { SERVER_URL } from "../utils/constants";
 
+
+
 const Auth = () => {
+console.log("SERVER_URL",SERVER_URL)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
