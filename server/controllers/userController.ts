@@ -63,6 +63,7 @@ console.log("token gendered",token)
       res
         .status(404)
         .json({ status: false, message: "Email already existing" });
+        return
     }
 
     if (name.length <= 3) {
@@ -80,7 +81,6 @@ if(!existingEmail){
     email: email,
     password: hashed_password,
   });
-
 }
 
     console.log(db);
